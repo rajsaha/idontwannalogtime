@@ -1,11 +1,12 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import { plugin, defaultConfig } from '@formkit/vue'
-import './assets/main.css'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import { plugin, defaultConfig } from "@formkit/vue";
+import "./assets/main.css";
+import SetupCalendar from "v-calendar";
+const app = createApp(App).use(plugin, defaultConfig);
 
-const app = createApp(App).use(plugin, defaultConfig)
+app.use(router);
+app.use(SetupCalendar, {});
 
-app.use(router)
-
-app.mount('#app')
+app.mount("#app");

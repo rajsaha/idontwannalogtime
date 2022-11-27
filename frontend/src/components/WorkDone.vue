@@ -1,5 +1,7 @@
 <template>
-
+  <li v-for="item in items">
+    {{ item.duration }} {{ item.description }}
+  </li>
 </template>
 
 <script>
