@@ -1,5 +1,5 @@
 <template>
-  <p>{{ date }}</p>
+  <h1 id="selected-or-current-date" class="font-bold mb-4 text-3xl">{{ date }}</h1>
   <FormKit
     type="form"
     id="log-time-form"
@@ -73,4 +73,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#selected-or-current-date {
+  color: #6BCB77;
+}
+</style>

@@ -19,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/rajsaha/idontwannalogtime/issues"
   },
-  "homepage": "https://github.com/rajsaha/idontwannalogtime#readme"
+  "homepage": "https://github.com/rajsaha/idontwannalogtime#readme",
+  "dependencies": {
+    "tailwindcss": "^3.2.4"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.5.0"
+  }
 }
