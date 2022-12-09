@@ -3,12 +3,20 @@ import App from "./App.vue"
 import router from "./router"
 import { plugin, defaultConfig } from "@formkit/vue"
 import "./assets/main.css"
-import "@formkit/themes/genesis"
 import SetupCalendar from "v-calendar"
 import { createPinia } from "pinia"
+import { generateClasses } from "@formkit/themes"
+import theme from "./theme"
 
 const pinia = createPinia()
-const app = createApp(App).use(plugin, defaultConfig)
+const app = createApp(App).use(
+    plugin,
+    defaultConfig({
+        config: {
+            classes: generateClasses(theme),
+        },
+    })
+)
 
 app.use(router)
 app.use(pinia)

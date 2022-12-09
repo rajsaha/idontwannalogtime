@@ -8,17 +8,15 @@
         <p class="max-w-max text-ellipsis">
             {{ getTruncatedDescription }}
         </p>
-        <small>{{ work.createdAt }}</small>
+        <small class="mb-2">{{ work.createdAt }}</small>
 
         <Transition appear name="slide-fade">
             <div
-                class="work-unit-buttons grid grid-cols-2"
+                class="work-unit-buttons inline-grid grid-cols-2 w-full justify-content-end"
                 v-if="isBeingHovered"
             >
-                <button class="justify-self-end py-2 px-4 rounded">
-                    Delete
-                </button>
-                <button class="justify-self-end py-2 px-4 rounded">Edit</button>
+                <button class="py-2 px-4 rounded">Delete</button>
+                <button class="py-2 px-4 rounded">Edit</button>
             </div>
         </Transition>
     </div>
@@ -50,7 +48,7 @@ export default defineComponent({
 
 <style scoped>
 .work-done-item {
-    max-width: 375px;
+    max-width: 28rem;
     border: 1px solid #eeeeee;
     border-radius: 0.5rem;
     max-height: 85px;
