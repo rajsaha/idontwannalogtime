@@ -1,22 +1,30 @@
 <template>
-  <DatePicker v-model="date" />
+    <DatePicker v-model="store.date" @dayclick="updateDate" />
 </template>
 
 <script>
-import { Calendar, DatePicker } from 'v-calendar';
+import { DatePicker } from "v-calendar"
+import { useCounterStore } from "@/stores/state"
 export default {
-  components: {
-    Calendar,
-    DatePicker
-  },
-  data() {
-    return {
-      date: new Date(),
-    };
-  },
-};
+    components: {
+        DatePicker,
+    },
+    data() {
+        return {
+            date: new Date(),
+        }
+    },
+    setup() {
+        const store = useCounterStore()
+
+        return { store }
+    },
+    methods: {
+        updateDate(day) {
+            this.store.setDate(day.date)
+        },
+    },
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

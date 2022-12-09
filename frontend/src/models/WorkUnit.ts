@@ -1,8 +1,8 @@
 export class WorkUnit {
-    private duration: string
-    private description: string
-    private logType: string
-    private createdAt: string
+    duration: string
+    description: string
+    logType: string
+    createdAt: string
 
     constructor(
         duration: string,

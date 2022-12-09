@@ -1,20 +1,48 @@
 <template>
-    <div class='work-done-item p-3 mb-4 shadow'>
+    <div
+        class="work-done-item p-3 mb-4 shadow"
+        @mouseenter="isBeingHovered = true"
+        @mouseleave="isBeingHovered = false"
+    >
         <small>#{{ work.logType }}</small>
-        <p>{{ work.duration }} on {{ work.description }}</p>
+        <p class="max-w-max text-ellipsis">
+            {{ getTruncatedDescription }}
+        </p>
         <small>{{ work.createdAt }}</small>
+
+        <Transition appear name="slide-fade">
+            <div
+                class="work-unit-buttons grid grid-cols-2"
+                v-if="isBeingHovered"
+            >
+                <button class="justify-self-end py-2 px-4 rounded">
+                    Delete
+                </button>
+                <button class="justify-self-end py-2 px-4 rounded">Edit</button>
+            </div>
+        </Transition>
     </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { WorkUnit } from '@/models/WorkUnit'
+import { defineComponent } from "vue"
+import { WorkUnit } from "@/models/WorkUnit"
 
 export default defineComponent({
     props: {
         work: {
             type: WorkUnit,
             default: {},
+        },
+    },
+    data() {
+        return {
+            isBeingHovered: false,
+        }
+    },
+    computed: {
+        getTruncatedDescription() {
+            return `${this.work.duration} on ${this.work.description}`
         },
     },
 })
@@ -25,10 +53,51 @@ export default defineComponent({
     max-width: 375px;
     border: 1px solid #eeeeee;
     border-radius: 0.5rem;
+    max-height: 85px;
+    transition: max-height 0.15s ease-out;
+}
+
+.work-done-item:hover {
+    max-height: 150px;
+    transition: max-height 0.05s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.work-done-item p {
+    width: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.work-done-item:hover p {
+    white-space: inherit;
+    text-overflow: inherit;
 }
 
 .work-done-item small {
     display: block;
     color: #b2b2b2;
+}
+
+.work-done-item .work-unit-buttons button:nth-of-type(1) {
+    color: #f67280;
+}
+
+.work-done-item .work-unit-buttons button:nth-of-type(2) {
+    background-color: #355c7d;
+    color: white;
+}
+
+.slide-fade-enter-active {
+    transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+    transition: all 0.05s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    opacity: 0;
 }
 </style>
