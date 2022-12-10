@@ -1,6 +1,10 @@
 <template>
     <section>
-        <h1 class="font-bold text-3xl mb-4">Work Done</h1>
+        <h1 class="font-bold text-3xl mb-4">Work Log</h1>
+        <progress class="rounded-full" value="{{ perentageDone }}" max="100">
+            asd
+        </progress>
+        <small class="block mb-4">{{ totalMinutes }} of 540m</small>
         <li class="list-none">
             <WorkUnit v-for="item in items" :key="item" :work="item"></WorkUnit>
         </li>
@@ -19,6 +23,7 @@ export default defineComponent({
             items: [
                 {
                     duration: "4h 20m",
+                    durationInMinutes: 260,
                     description:
                         "Reviewing tech design doc with Chun Weng (1447 - user attributes)",
                     logType: "Development",
@@ -26,12 +31,26 @@ export default defineComponent({
                 },
                 {
                     duration: "40m",
+                    durationInMinutes: 40,
                     description: "Standup",
                     logType: "Meeting",
                     createdAt: dayjs().format("h:m:s a"),
                 },
             ],
         }
+    },
+    computed: {
+        totalMinutes() {
+            let minutes = 0
+            for (const item of this.items) {
+                minutes += item.durationInMinutes
+            }
+            return minutes
+        },
+        perentageDone() {
+            const percentage = (this.totalMinutes / 540) * 100
+            return `${percentage.toFixed(0)}%`
+        },
     },
 })
 </script>

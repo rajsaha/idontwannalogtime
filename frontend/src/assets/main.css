@@ -8,3 +8,15 @@
 #log-time-form-incomplete {
     display: none;
 }
+
+.custom-button {
+    transition: background-color 0.1s ease-in-out;
+}
+
+.custom-button:hover {
+    filter: contrast(200%);
+}
+
+.custom-button:active {
+    filter: grayscale(20%);
+}

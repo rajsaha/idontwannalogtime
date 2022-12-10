@@ -15,8 +15,8 @@
                 class="work-unit-buttons inline-grid grid-cols-2 w-full justify-content-end"
                 v-if="isBeingHovered"
             >
-                <button class="py-2 px-4 rounded">Delete</button>
-                <button class="py-2 px-4 rounded">Edit</button>
+                <button class="py-2 px-4 rounded custom-button">Delete</button>
+                <button class="py-2 px-4 rounded custom-button">Edit</button>
             </div>
         </Transition>
     </div>

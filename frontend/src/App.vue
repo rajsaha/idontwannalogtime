@@ -9,6 +9,12 @@ import { RouterLink, RouterView } from "vue-router"
         </h1>
     </nav>
     <RouterView />
+    <footer class="p-4">
+        <p>
+            Made with ❤️ by
+            <a href="https://rajsaha.dev/" target="_blank">Raj Saha</a>
+        </p>
+    </footer>
 </template>
 
 <style scoped></style>

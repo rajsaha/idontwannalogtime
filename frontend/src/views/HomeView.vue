@@ -6,7 +6,7 @@ import LogCalendar from "@/components/LogCalendar.vue"
 
 <template>
     <main class="h-screen p-4">
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+        <section class="grid home-grid gap-x-6">
             <div class="md:justify-self-end"><LogCalendar /></div>
             <div>
                 <LogTimeForm />
@@ -16,4 +16,9 @@ import LogCalendar from "@/components/LogCalendar.vue"
     </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.home-grid {
+    grid-template-columns: min-content max-content;
+    justify-content: center;
+}
+</style>

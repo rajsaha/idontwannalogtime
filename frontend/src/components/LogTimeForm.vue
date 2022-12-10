@@ -49,7 +49,7 @@
             validation="required"
             :validation-messages="{ required: 'Required' }"
         />
-        <FormKit type="submit" label="Log" />
+        <FormKit type="submit" label="Log Work" />
     </FormKit>
 </template>
 
@@ -88,12 +88,18 @@ export default {
         async submitHandler() {
             await new Promise((r) => setTimeout(r, 1000))
             this.submitted = true
+            this.$formkit.reset("log-time-work")
         },
     },
     setup() {
         const store = useCounterStore()
 
         return { store }
+    },
+    watch: {
+        date() {
+            this.$formkit.reset("log-time-form")
+        },
     },
 }
 </script>
