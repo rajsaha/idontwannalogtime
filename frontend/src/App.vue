@@ -3,18 +3,57 @@ import { RouterLink, RouterView } from "vue-router"
 </script>
 
 <template>
-    <nav class="p-4">
-        <h1 class="font-bold">
-            idontwannalogtime<span class="font-normal">v0.1</span>
-        </h1>
-    </nav>
-    <RouterView />
-    <footer class="p-4">
-        <p>
-            Made with ❤️ by
-            <a href="https://rajsaha.dev/" target="_blank">Raj Saha</a>
-        </p>
-    </footer>
+    <div class="application-sections h-screen">
+        <nav class="p-4 flex">
+            <h1 class="font-bold">idontwannalogtime</h1>
+            <small style="margin-top: -3px">v0.1</small>
+        </nav>
+        <div class="pages flex self-center justify-self-center">
+            <RouterView />
+        </div>
+        <footer class="p-4">
+            <p class="self-center">
+                Made with ❤️ by
+                <a href="https://rajsaha.dev/" target="_blank">Raj Saha</a>
+            </p>
+        </footer>
+    </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.application-sections {
+    display: grid;
+    grid-template-areas:
+        "navigation"
+        "main"
+        "footer";
+    overflow: hidden;
+}
+
+.application-sections nav {
+    grid-area: navigation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.application-sections nav h1 {
+    font-family: "La Belle Aurore", cursive;
+    font-size: 1.5rem;
+}
+
+.application-sections nav h1 span {
+    font-family: inherit;
+}
+
+.application-sections .pages {
+    grid-area: main;
+}
+
+.application-sections footer {
+    grid-area: footer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>

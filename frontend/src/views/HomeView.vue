@@ -5,7 +5,7 @@ import LogCalendar from "@/components/LogCalendar.vue"
 </script>
 
 <template>
-    <main class="h-screen p-4">
+    <main class="p-4">
         <section class="grid home-grid gap-x-6">
             <div class="md:justify-self-end"><LogCalendar /></div>
             <div>
