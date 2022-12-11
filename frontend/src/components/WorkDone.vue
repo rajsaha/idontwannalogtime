@@ -1,12 +1,14 @@
 <template>
     <section>
         <h1 class="font-bold text-3xl mb-4">Work Log</h1>
-        <div class="progress-bar-container w-full rounded-full">
-            <progress class="w-full" value="{{ percentageDone }}" max="100">
+        <div class="progress-bar-container mb-2">
+            <progress class="w-full" v-bind:value="percentageDone" max="100">
                 {{ percentageDone }}
             </progress>
         </div>
-        <small class="block mb-4">{{ totalMinutes }} of 540m</small>
+        <small class="block mb-4 text-right"
+            >{{ totalMinutes }} of 540 minutes</small
+        >
         <li class="list-none">
             <WorkUnit v-for="item in items" :key="item" :work="item"></WorkUnit>
         </li>
@@ -51,7 +53,7 @@ export default defineComponent({
         },
         percentageDone() {
             const percentage = (this.totalMinutes / 540) * 100
-            return `${percentage.toFixed(0)}%`
+            return `${percentage.toFixed(0)}`
         },
     },
 })
@@ -59,5 +61,20 @@ export default defineComponent({
 
 <style scoped>
 .progress-bar-container {
+    display: flex;
+    width: 100%;
+    border-radius: 25px;
+    overflow: hidden;
+    height: min-content;
+}
+
+progress::-moz-progress-bar {
+    background: #6bcb77;
+}
+progress::-webkit-progress-value {
+    background: #6bcb77;
+}
+progress {
+    color: #6bcb77;
 }
 </style>

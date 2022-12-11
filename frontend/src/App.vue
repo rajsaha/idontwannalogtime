@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from "vue-router"
     <div class="application-sections h-screen">
         <nav class="p-4 flex">
             <h1 class="font-bold">idontwannalogtime</h1>
-            <small style="margin-top: -3px">v0.1</small>
+            <small style="margin-top: 4px">v0.1</small>
         </nav>
         <div class="pages flex self-center justify-self-center">
             <RouterView />
@@ -38,7 +38,7 @@ import { RouterLink, RouterView } from "vue-router"
 }
 
 .application-sections nav h1 {
-    font-family: "La Belle Aurore", cursive;
+    font-family: "Rancho", cursive;
     font-size: 1.5rem;
 }
 
