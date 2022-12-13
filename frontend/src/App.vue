@@ -1,22 +1,20 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router"
-</script>
-
 <template>
-    <div class="application-sections h-screen">
-        <nav class="p-4 flex">
-            <h1 class="font-bold">idontwannalogtime</h1>
-            <small style="margin-top: 4px">v0.1</small>
-        </nav>
-        <div class="pages flex self-center justify-self-center">
-            <RouterView />
+    <div>
+        <div class="application-sections h-screen">
+            <nav class="p-4 flex">
+                <h1 class="font-bold">idontwannalogtime</h1>
+                <small style="margin-top: 4px">v0.1</small>
+            </nav>
+            <div class="pages flex self-center justify-self-center">
+                <RouterView />
+            </div>
+            <footer class="p-4">
+                <p class="self-center">
+                    Made with ❤️ by
+                    <a href="https://rajsaha.dev/" target="_blank">Raj Saha</a>
+                </p>
+            </footer>
         </div>
-        <footer class="p-4">
-            <p class="self-center">
-                Made with ❤️ by
-                <a href="https://rajsaha.dev/" target="_blank">Raj Saha</a>
-            </p>
-        </footer>
     </div>
 </template>
 
@@ -27,7 +25,8 @@ import { RouterLink, RouterView } from "vue-router"
         "navigation"
         "main"
         "footer";
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .application-sections nav {

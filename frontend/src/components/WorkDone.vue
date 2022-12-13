@@ -7,7 +7,7 @@
             </progress>
         </div>
         <small class="block mb-4 text-right"
-            >{{ totalMinutes }} of 540 minutes</small
+            >{{ totalMinutes }} of 540 minutes (standard 8 hour workday)</small
         >
         <li class="list-none">
             <WorkUnit v-for="item in items" :key="item" :work="item"></WorkUnit>
@@ -37,6 +37,20 @@ export default defineComponent({
                     duration: "40m",
                     durationInMinutes: 40,
                     description: "Standup",
+                    logType: "Meeting",
+                    createdAt: dayjs().format("h:m:s a"),
+                },
+                {
+                    duration: "40m",
+                    durationInMinutes: 40,
+                    description: "Meeting with Mike",
+                    logType: "Meeting",
+                    createdAt: dayjs().format("h:m:s a"),
+                },
+                {
+                    duration: "1h 10m",
+                    durationInMinutes: 70,
+                    description: "Meeting with Mike",
                     logType: "Meeting",
                     createdAt: dayjs().format("h:m:s a"),
                 },

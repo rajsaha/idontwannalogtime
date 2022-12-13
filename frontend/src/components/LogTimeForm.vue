@@ -1,56 +1,57 @@
 <template>
-    <h1 id="selected-or-current-date" class="font-bold mb-4 text-3xl">
-        {{ formattedDate }}
-    </h1>
-    <FormKit
-        type="form"
-        id="log-time-form"
-        :form-class="submitted ? 'hide' : 'show'"
-        submit-label="Log"
-        @submit="submitHandler"
-        :actions="false"
-        #default="{ value }"
-        incomplete-message="Please fill out all fields"
-    >
+    <div class="mb-12">
+        <h1 id="selected-or-current-date" class="font-bold mb-4 text-3xl">
+            {{ formattedDate }}
+        </h1>
         <FormKit
-            type="text"
-            label="What did you work on?"
-            help="Worked on POST API"
-            v-model="workedOn"
-            validation="required|length:1, 75"
-            :validation-messages="{
-                required: 'Required',
-                length: 'This field needs to be 1-75 characters long',
-            }"
-        />
-        <FormKit
-            type="text"
-            label="How much time did you spend on it?"
-            help="2h 20m"
-            v-model="timeSpent"
-            :validation="[
-                ['required'],
-                [
-                    'matches',
-                    /^\d{1,2}\s?(h|hr|hour[s]?|m|min|minute[s]?)\b\s?(\d{1,2}\s?(m|min|minute[s]?)\b)?$/,
-                ],
-            ]"
-            :validation-messages="{
-                required: 'Required',
-                matches: 'Format incorrect',
-            }"
-        />
-        <FormKit
-            type="select"
-            label="What kind of work did you do?"
-            placeholder="Development"
-            v-model="logType"
-            :options="logTypes"
-            validation="required"
-            :validation-messages="{ required: 'Required' }"
-        />
-        <FormKit type="submit" label="Log Work" />
-    </FormKit>
+            type="form"
+            id="log-time-form"
+            :form-class="submitted ? 'hide' : 'show'"
+            submit-label="Log"
+            @submit="submitHandler"
+            :actions="false"
+            incomplete-message="Please fill out all fields"
+        >
+            <FormKit
+                type="text"
+                label="What did you work on?"
+                help="Worked on POST API"
+                v-model="workedOn"
+                validation="required|length:1, 75"
+                :validation-messages="{
+                    required: 'Required',
+                    length: 'This field needs to be 1-75 characters long',
+                }"
+            />
+            <FormKit
+                type="text"
+                label="How much time did you spend on it?"
+                help="2h 20m"
+                v-model="timeSpent"
+                :validation="[
+                    ['required'],
+                    [
+                        'matches',
+                        /^\d{1,2}\s?(h|hr|hour[s]?|m|min|minute[s]?)\b\s?(\d{1,2}\s?(m|min|minute[s]?)\b)?$/,
+                    ],
+                ]"
+                :validation-messages="{
+                    required: 'Required',
+                    matches: 'Format incorrect',
+                }"
+            />
+            <FormKit
+                type="select"
+                label="What kind of work did you do?"
+                placeholder="Select a type"
+                v-model="logType"
+                :options="logTypes"
+                validation="required"
+                :validation-messages="{ required: 'Required' }"
+            />
+            <FormKit type="submit" label="Log Work" />
+        </FormKit>
+    </div>
 </template>
 
 <script>
@@ -63,9 +64,6 @@ export default {
     data() {
         return {
             date: dayjs().format("Do MMMM, YYYY"),
-            workedOn: "",
-            timeSpent: "",
-            logType: "",
             logTypes: [
                 {
                     value: 1,
