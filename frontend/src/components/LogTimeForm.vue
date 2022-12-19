@@ -1,11 +1,15 @@
 <template>
     <div class="mb-12">
-        <h1 id="selected-or-current-date" class="font-bold mb-4 text-3xl">
+        <h1
+            id="selected-or-current-date"
+            class="font-bold mb-4"
+            :class="{ 'text-3xl': !inModal }"
+        >
             {{ formattedDate }}
         </h1>
         <FormKit
             type="form"
-            id="log-time-form"
+            :id="formId"
             :form-class="submitted ? 'hide' : 'show'"
             submit-label="Log"
             @submit="submitHandler"
@@ -16,7 +20,6 @@
                 type="text"
                 label="What did you work on?"
                 help="Worked on POST API"
-                v-model="workedOn"
                 validation="required|length:1, 75"
                 :validation-messages="{
                     required: 'Required',
@@ -27,7 +30,6 @@
                 type="text"
                 label="How much time did you spend on it?"
                 help="2h 20m"
-                v-model="timeSpent"
                 :validation="[
                     ['required'],
                     [
@@ -44,12 +46,11 @@
                 type="select"
                 label="What kind of work did you do?"
                 placeholder="Select a type"
-                v-model="logType"
                 :options="logTypes"
                 validation="required"
                 :validation-messages="{ required: 'Required' }"
             />
-            <FormKit type="submit" label="Log Work" />
+            <FormKit type="submit" label="Log Work" v-if="!inModal" />
         </FormKit>
     </div>
 </template>
@@ -58,9 +59,16 @@
 import dayjs from "dayjs"
 import advancedFormat from "dayjs/plugin/advancedFormat"
 import { useCounterStore } from "@/stores/state"
+
 dayjs.extend(advancedFormat)
 
 export default {
+    created() {
+        this.formId = this.makeId()
+    },
+    mounted() {
+        this.node = this.$formkit.get(this.formId)
+    },
     data() {
         return {
             date: dayjs().format("Do MMMM, YYYY"),
@@ -75,6 +83,8 @@ export default {
                 },
             ],
             submitted: false,
+            node: undefined,
+            formId: null,
         }
     },
     computed: {
@@ -84,9 +94,20 @@ export default {
     },
     methods: {
         async submitHandler() {
-            await new Promise((r) => setTimeout(r, 1000))
-            this.submitted = true
-            this.$formkit.reset("log-time-work")
+            if (!this.node.context.state.valid) {
+                this.node.submit()
+                return false
+            }
+
+            return await new Promise((r) => {
+                setTimeout(r, 1000)
+                this.submitted = true
+                this.$formkit.reset(this.formId)
+                return this.inModal
+            })
+        },
+        makeId() {
+            return Math.random().toString(36).slice(2, 7)
         },
     },
     setup() {
@@ -96,7 +117,13 @@ export default {
     },
     watch: {
         date() {
-            this.$formkit.reset("log-time-form")
+            this.$formkit.reset(this.formId)
+        },
+    },
+    props: {
+        inModal: {
+            type: Boolean,
+            default: false,
         },
     },
 }

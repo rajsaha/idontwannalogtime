@@ -30,26 +30,33 @@
                 <div v-if="open" class="modal-mask">
                     <div class="modal-wrapper">
                         <div class="modal-container">
-                            <div class="modal-header">
+                            <div class="modal-header font-bold uppercase text-gray-600">
                                 <slot name="header">Update Work</slot>
                             </div>
 
                             <div class="modal-body">
-                                <slot name="body"
-                                    ><LogTimeForm></LogTimeForm
-                                ></slot>
+                                <slot name="body">
+                                    <LogTimeForm
+                                        :inModal="true"
+                                        ref="logTimeForm"
+                                    ></LogTimeForm>
+                                </slot>
                             </div>
 
                             <div class="modal-footer">
                                 <slot name="footer">
                                     <button
-                                        class="modal-default-button"
-                                        @click="$emit('cancel')"
-                                    >Cancel</button>
+                                        class="modal-default-button py-2 px-4 rounded"
+                                        @click="cancel"
+                                    >
+                                        Cancel
+                                    </button>
                                     <button
-                                        class="modal-default-button"
-                                        @click="$emit('update')"
-                                    >Update</button>
+                                        class="modal-default-button py-2 px-4 rounded"
+                                        @click="update"
+                                    >
+                                        Update
+                                    </button>
                                 </slot>
                             </div>
                         </div>
@@ -71,6 +78,9 @@ export default defineComponent({
         work: {
             type: WorkUnit,
         },
+        inModal: {
+            type: Boolean,
+        },
     },
     data() {
         return {
@@ -86,6 +96,16 @@ export default defineComponent({
     methods: {
         updateWorkUnitDialog() {
             this.open = true
+        },
+        cancel() {
+            this.open = false
+        },
+        async update() {
+            const result = await this.$refs.logTimeForm.submitHandler()
+            console.log(result)
+            if (result) {
+                this.open = false
+            }
         },
     },
 })
@@ -180,18 +200,15 @@ export default defineComponent({
     margin: 20px 0;
 }
 
-.modal-default-button {
-    float: right;
+.modal-footer {
+    display: grid;
+    grid-template-columns: auto auto;
 }
 
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
+.modal-default-button:nth-of-type(2) {
+    background-color: #355c7d;
+    color: white;
+}
 
 .modal-enter-from {
     opacity: 0;
@@ -206,5 +223,4 @@ export default defineComponent({
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
 }
-
 </style>
