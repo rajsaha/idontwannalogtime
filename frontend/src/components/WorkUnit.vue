@@ -1,6 +1,6 @@
 <template>
     <div
-        class="work-done-item p-3 mb-4 shadow"
+        class="work-done-item p-3 mb-4"
         @mouseenter="isBeingHovered = true"
         @mouseleave="isBeingHovered = false"
     >
@@ -18,7 +18,7 @@
                 <button class="py-2 px-4 rounded custom-button">Delete</button>
                 <button
                     @click="updateWorkUnitDialog"
-                    class="py-2 px-4 rounded custom-button"
+                    class="py-2 px-4 rounded custom-button shadow"
                 >
                     Edit
                 </button>
@@ -115,7 +115,7 @@ export default defineComponent({
 <style scoped>
 .work-done-item {
     max-width: 28rem;
-    border: 1px solid #eeeeee;
+    border: 2px solid #eeeeee;
     border-radius: 0.5rem;
     max-height: 85px;
     transition: max-height 0.15s ease-out;
@@ -124,6 +124,7 @@ export default defineComponent({
 .work-done-item:hover {
     max-height: 150px;
     transition: max-height 0.05s cubic-bezier(1, 0.5, 0.8, 1);
+    border-color: #6bcb77;
 }
 
 .work-done-item p {

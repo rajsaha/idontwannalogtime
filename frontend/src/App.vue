@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="application-sections h-screen">
+        <div class="application-sections h-screen gradient">
             <nav class="p-4 flex">
                 <h1 class="font-bold">idontwannalogtime</h1>
                 <small style="margin-top: 4px">v0.1</small>
@@ -54,5 +54,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.gradient {
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 </style>

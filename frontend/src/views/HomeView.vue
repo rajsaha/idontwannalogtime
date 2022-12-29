@@ -21,7 +21,7 @@ export default defineComponent({
     <main class="p-4">
         <section class="grid home-grid gap-x-6">
             <div class="md:justify-self-end"><LogCalendar /></div>
-            <div>
+            <div class="p-4 content shadow-2xl">
                 <LogTimeForm ref="logTimeForm" />
                 <WorkDone />
             </div>
@@ -33,5 +33,10 @@ export default defineComponent({
 .home-grid {
     grid-template-columns: min-content max-content;
     justify-content: center;
+}
+
+.content {
+    background-color: white;
+    border-radius: 0.5rem;
 }
 </style>
