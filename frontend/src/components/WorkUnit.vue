@@ -30,7 +30,9 @@
                 <div v-if="open" class="modal-mask">
                     <div class="modal-wrapper">
                         <div class="modal-container">
-                            <div class="modal-header font-bold uppercase text-gray-600">
+                            <div
+                                class="modal-header font-bold uppercase text-gray-600"
+                            >
                                 <slot name="header">Update Work</slot>
                             </div>
 
@@ -69,7 +71,7 @@
 
 <script>
 import { defineComponent } from "vue"
-import { WorkUnit } from "@/models/WorkUnit"
+import { WorkUnit as WorkUnit } from "@/models/WorkUnit"
 import LogTimeForm from "@/components/LogTimeForm.vue"
 
 export default defineComponent({
@@ -102,7 +104,6 @@ export default defineComponent({
         },
         async update() {
             const result = await this.$refs.logTimeForm.submitHandler()
-            console.log(result)
             if (result) {
                 this.open = false
             }

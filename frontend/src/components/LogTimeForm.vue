@@ -99,12 +99,9 @@ export default {
                 return false
             }
 
-            return await new Promise((r) => {
-                setTimeout(r, 1000)
-                this.submitted = true
-                this.$formkit.reset(this.formId)
-                return this.inModal
-            })
+            this.submitted = true
+            this.$formkit.reset(this.formId)
+            return this.$formkit.get(this.formId).value
         },
         makeId() {
             return Math.random().toString(36).slice(2, 7)
