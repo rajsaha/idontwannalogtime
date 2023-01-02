@@ -1,12 +1,15 @@
 <template>
     <div class="mb-12">
-        <h1
-            id="selected-or-current-date"
-            class="font-bold mb-4"
-            :class="{ 'text-3xl': !inModal }"
-        >
-            {{ formattedDate }}
-        </h1>
+        <Transition name="slide-fade-future" mode="out-in">
+            <h1
+                id="selected-or-current-date"
+                class="font-bold mb-4"
+                :class="{ 'text-3xl': !inModal }"
+                :key="formattedDate"
+            >
+                {{ formattedDate }}
+            </h1>
+        </Transition>
         <FormKit
             type="form"
             :id="formId"
@@ -14,7 +17,7 @@
             submit-label="Log"
             @submit="submitHandler"
             :actions="false"
-            incomplete-message="Please fill out all fields"
+            incomplete-message=""
         >
             <FormKit
                 type="text"
@@ -85,6 +88,7 @@ export default {
             submitted: false,
             node: undefined,
             formId: null,
+            animationClass: "slide-fade-future",
         }
     },
     computed: {
@@ -129,5 +133,17 @@ export default {
 <style scoped>
 #selected-or-current-date {
     color: #6bcb77;
+}
+
+.slide-fade-future-enter-active {
+    transition: all 0.1s ease;
+}
+.slide-fade-future-leave-active {
+    transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-future-enter, .slide-fade-future-leave-to
+    /* .slide-fade-leave-active for <2.1.8 */ {
+    transform: translateY(50px);
+    opacity: 0;
 }
 </style>
