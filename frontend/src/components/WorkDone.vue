@@ -83,12 +83,12 @@ export default defineComponent({
 }
 
 progress::-moz-progress-bar {
-    background: #6bcb77;
+    background: #acfcd9;
 }
 progress::-webkit-progress-value {
-    background: #6bcb77;
+    background: #acfcd9;
 }
 progress {
-    color: #6bcb77;
+    color: #acfcd9;
 }
 </style>

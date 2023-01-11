@@ -2,11 +2,16 @@
     <main class="p-4">
         <section class="grid what-is gap-x-6">
             <div class="md:justify-self-end">
-                <h1 class="font-bold">What is this? I don't wanna log time!</h1>
+                <h1 class="font-bold">
+                    What is this?
+                    <span class="font-black" style="color: #b084cc"
+                        >🙅‍♂️ I don't wanna log time!</span
+                    >
+                </h1>
                 <p>
-                    Hi 👋 I don't either but your client needs to see what you
-                    worked on or else you don't get paid! This tool makes
-                    logging time just <i>that</i> much easier!
+                    I don't either but your client needs to see what you worked
+                    on or else you don't get paid! This tool makes logging time
+                    just <i>that</i> much easier!
                 </p>
                 <br />
                 <p>
@@ -19,6 +24,8 @@
                     As of v0.1, not much. You can log time and revisit what you
                     what you have logged in the past. That's about it!
                 </p>
+                <br />
+                <p>More to come soon! 🚧</p>
             </div>
             <div class="p-4 content shadow-2xl">
                 <LoginForm @signup="goToSignup" v-if="isLogin"></LoginForm>

@@ -3,7 +3,7 @@
         <Transition name="slide-fade-future" mode="out-in">
             <h1
                 id="selected-or-current-date"
-                class="font-bold mb-4"
+                class="font-bold mb-4 text-[#5DD9C1]"
                 :class="{ 'text-3xl': !inModal }"
                 :key="formattedDate"
             >
@@ -131,10 +131,6 @@ export default {
 </script>
 
 <style scoped>
-#selected-or-current-date {
-    color: #6bcb77;
-}
-
 .slide-fade-future-enter-active {
     transition: all 0.1s ease;
 }

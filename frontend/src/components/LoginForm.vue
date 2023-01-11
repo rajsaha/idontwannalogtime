@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="auth-form">
+        <h1 class="font-black uppercase mb-4 text-lg">🔓 Get back in</h1>
         <FormKit
             type="form"
             :id="formId"
@@ -76,4 +77,13 @@ export default defineComponent({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.auth-form {
+    display: grid;
+    height: 100%;
+}
+
+.auth-form small {
+    align-self: end;
+}
+</style>

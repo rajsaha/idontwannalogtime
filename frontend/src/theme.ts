@@ -1,16 +1,18 @@
 // Create some re-useable definitions because
 // many input types are identical in how
 // we want to style them.
+// color pallete https://coolors.co/5dd9c1-acfcd9-b084cc-665687-190933
 const textClassification = {
     label: "block mb-1 font-bold text-sm formkit-invalid:text-red-500",
     inner: `
     max-w-md
-    border
-    border-gray-400
+    border-2
+    border-gray-200
     formkit-invalid:border-red-500
-    rounded-lg mb-1
+    rounded-md mb-1
     overflow-hidden
     focus-within:border-blue-500
+    focus-within:border-2
   `,
     input: "w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400",
 }
@@ -24,12 +26,13 @@ const boxClassification = {
 }
 const buttonClassification = {
     wrapper: "mb-1",
-    input: "bg-blue-500 hover:bg-blue-700 text-white text-sm font-normal py-3 px-5 rounded",
+    input: "bg-[#665687] hover:bg-[#190933] text-white text-sm font-bold py-3 px-5 rounded",
 }
 
 // export our definitions using our above
 // templates and declare one-offs and
 // overrides as needed.
+// turquoise: "#5DD9C1", "magic-mint": "#ACFCD9", "african-violet": "#B084CC", "purple-navy": "#665687", "russian-violet": "#190933",
 export default {
     // the global key will apply to all inputs
     global: {

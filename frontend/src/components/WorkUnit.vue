@@ -5,7 +5,7 @@
         @mouseleave="isBeingHovered = false"
     >
         <small>#{{ work.logType }}</small>
-        <p class="max-w-max text-ellipsis">
+        <p class="max-w-max text-ellipsis font-medium">
             {{ getTruncatedDescription }}
         </p>
         <small class="mb-2">{{ work.createdAt }}</small>
@@ -15,10 +15,12 @@
                 class="work-unit-buttons inline-grid grid-cols-2 w-full justify-content-end"
                 v-if="isBeingHovered"
             >
-                <button class="py-2 px-4 rounded custom-button">Delete</button>
+                <button class="py-2 px-4 rounded custom-button font-bold">
+                    Delete
+                </button>
                 <button
                     @click="updateWorkUnitDialog"
-                    class="py-2 px-4 rounded custom-button shadow"
+                    class="py-2 px-4 rounded custom-button shadow font-bold"
                 >
                     Edit
                 </button>
@@ -48,13 +50,13 @@
                             <div class="modal-footer">
                                 <slot name="footer">
                                     <button
-                                        class="modal-default-button py-2 px-4 rounded"
+                                        class="modal-default-button py-2 px-4 rounded font-bold"
                                         @click="cancel"
                                     >
                                         Cancel
                                     </button>
                                     <button
-                                        class="modal-default-button py-2 px-4 rounded"
+                                        class="modal-default-button py-2 px-4 rounded font-bold"
                                         @click="update"
                                     >
                                         Update
@@ -124,7 +126,7 @@ export default defineComponent({
 .work-done-item:hover {
     max-height: 150px;
     transition: max-height 0.05s cubic-bezier(1, 0.5, 0.8, 1);
-    border-color: #6bcb77;
+    border-color: #5dd9c1;
 }
 
 .work-done-item p {
@@ -149,7 +151,7 @@ export default defineComponent({
 }
 
 .work-done-item .work-unit-buttons button:nth-of-type(2) {
-    background-color: #355c7d;
+    background-color: #665687;
     color: white;
 }
 
@@ -208,7 +210,7 @@ export default defineComponent({
 }
 
 .modal-default-button:nth-of-type(2) {
-    background-color: #355c7d;
+    background-color: #665687;
     color: white;
 }
 

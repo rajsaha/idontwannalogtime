@@ -14,7 +14,7 @@
 }
 
 .custom-button:hover {
-    filter: contrast(200%);
+    filter: contrast(150%);
 }
 
 .custom-button:active {
