@@ -4,7 +4,7 @@
             <h1
                 id="selected-or-current-date"
                 class="font-bold mb-4 text-[#5DD9C1]"
-                :class="{ 'text-3xl': !inModal }"
+                :class="{ 'text-3xl': !inModal, 'text-lg': inModal }"
                 :key="formattedDate"
             >
                 {{ formattedDate }}

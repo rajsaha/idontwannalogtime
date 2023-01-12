@@ -15,7 +15,9 @@
                 class="work-unit-buttons inline-grid grid-cols-2 w-full justify-content-end"
                 v-if="isBeingHovered"
             >
-                <button class="py-2 px-4 rounded custom-button font-bold">
+                <button
+                    class="py-2 px-4 rounded custom-button-no-fill font-bold"
+                >
                     Delete
                 </button>
                 <button
@@ -33,7 +35,7 @@
                     <div class="modal-wrapper">
                         <div class="modal-container">
                             <div
-                                class="modal-header font-bold uppercase text-gray-600"
+                                class="modal-header font-bold uppercase text-gray-600 text-2xl"
                             >
                                 <slot name="header">Update Work</slot>
                             </div>
@@ -50,13 +52,13 @@
                             <div class="modal-footer">
                                 <slot name="footer">
                                     <button
-                                        class="modal-default-button py-2 px-4 rounded font-bold"
+                                        class="custom-button-no-fill py-2 px-4 rounded font-bold"
                                         @click="cancel"
                                     >
                                         Cancel
                                     </button>
                                     <button
-                                        class="modal-default-button py-2 px-4 rounded font-bold"
+                                        class="custom-button py-2 px-4 rounded font-bold"
                                         @click="update"
                                     >
                                         Update
@@ -126,7 +128,7 @@ export default defineComponent({
 .work-done-item:hover {
     max-height: 150px;
     transition: max-height 0.05s cubic-bezier(1, 0.5, 0.8, 1);
-    border-color: #5dd9c1;
+    border-color: #b084cc;
 }
 
 .work-done-item p {
@@ -144,15 +146,6 @@ export default defineComponent({
 .work-done-item small {
     display: block;
     color: #b2b2b2;
-}
-
-.work-done-item .work-unit-buttons button:nth-of-type(1) {
-    color: #f67280;
-}
-
-.work-done-item .work-unit-buttons button:nth-of-type(2) {
-    background-color: #665687;
-    color: white;
 }
 
 .slide-fade-enter-active {
@@ -207,11 +200,6 @@ export default defineComponent({
 .modal-footer {
     display: grid;
     grid-template-columns: auto auto;
-}
-
-.modal-default-button:nth-of-type(2) {
-    background-color: #665687;
-    color: white;
 }
 
 .modal-enter-from {

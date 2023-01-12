@@ -9,14 +9,29 @@
     display: none;
 }
 
-.custom-button {
+.custom-button:nth-of-type(2) {
+    background-color: #665687;
+    color: white;
     transition: background-color 0.1s ease-in-out;
 }
 
-.custom-button:hover {
-    filter: contrast(150%);
+.custom-button:nth-of-type(2):hover {
+    background-color: #331268;
 }
 
-.custom-button:active {
-    filter: grayscale(20%);
+.custom-button:nth-of-type(2):active {
+    background-color: black;
+}
+
+.custom-button-no-fill:nth-of-type(1) {
+    color: #f67280;
+    transition: color 0.1s ease-in-out;
+}
+
+.custom-button-no-fill:nth-of-type(1):hover {
+    color: #cb4654;
+}
+
+.custom-button-no-fill:nth-of-type(1):active {
+    color: #9d3943;
 }
