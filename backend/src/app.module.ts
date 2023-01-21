@@ -7,9 +7,10 @@ import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { PasswordUtil } from './util/password.util';
 import { AuthController } from './auth/auth.controller';
+
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot(),
     MongooseModule.forRoot(
       `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.gepognc.mongodb.net/test`,
     ),
