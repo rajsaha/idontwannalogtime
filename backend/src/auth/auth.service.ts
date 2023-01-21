@@ -4,6 +4,7 @@ import { PasswordUtil } from '../util/password.util';
 import { User } from '../schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import mongoose from 'mongoose';
+import { ENV } from '../util/env.util';
 
 @Injectable()
 export class AuthService {
@@ -35,7 +36,7 @@ export class AuthService {
     };
     return {
       access_token: this.jwtService.sign(payload, {
-        secret: process.env.JWT_SECRET,
+        secret: ENV.JWT_SECRET_KEY,
       }),
     };
   }
