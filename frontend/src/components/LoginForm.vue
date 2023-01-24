@@ -13,6 +13,7 @@
             <FormKit
                 type="text"
                 label="What's your email?"
+                name="email"
                 validation="required"
                 :validation-messages="{
                     required: 'Required',
@@ -21,6 +22,7 @@
             <FormKit
                 type="password"
                 label="What's your password?"
+                name="password"
                 validation="required"
                 :validation-messages="{
                     required: 'Required',
@@ -71,7 +73,7 @@ export default defineComponent({
             return Math.random().toString(36).slice(2, 7)
         },
         goToSignup() {
-            this.$emit("signup")
+            this.$emit("goToSignup")
         },
     },
 })

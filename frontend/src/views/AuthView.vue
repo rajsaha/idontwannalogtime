@@ -28,8 +28,16 @@
                 <p>More to come soon! 🚧</p>
             </div>
             <div class="p-4 content shadow-2xl">
-                <LoginForm @signup="goToSignup" v-if="isLogin"></LoginForm>
-                <SignupForm @login="goToLogin" v-if="!isLogin"></SignupForm>
+                <LoginForm
+                    @goToSignup="goToSignup"
+                    v-if="isLogin"
+                    ref="loginForm"
+                ></LoginForm>
+                <SignupForm
+                    @goToLogin="goToLogin"
+                    v-if="!isLogin"
+                    ref="signupForm"
+                ></SignupForm>
             </div>
         </section>
     </main>
@@ -39,6 +47,8 @@
 import { defineComponent } from "vue"
 import LoginForm from "@/components/LoginForm.vue"
 import SignupForm from "@/components/SignupForm.vue"
+import { authApi } from "@/api/auth.api"
+import router from "@/router"
 
 export default defineComponent({
     name: "AuthView",
@@ -54,6 +64,17 @@ export default defineComponent({
         },
         goToLogin() {
             this.isLogin = true
+        },
+        async login() {
+            const loginData = this.$refs.loginForm.submitHandler()
+            const accessToken = await authApi.login(loginData)
+            if (accessToken) {
+                localStorage.setItem("access_token", accessToken.access_token)
+                await router.push("/")
+            }
+        },
+        async signup() {
+            const signupData = this.$refs.signupForm.submitHandler()
         },
     },
 })

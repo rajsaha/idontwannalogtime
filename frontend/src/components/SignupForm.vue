@@ -70,7 +70,7 @@ export default defineComponent({
             return Math.random().toString(36).slice(2, 7)
         },
         goToLogin() {
-            this.$emit("login")
+            this.$emit("goToLogin")
         },
     },
 })
