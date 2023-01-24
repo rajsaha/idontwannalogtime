@@ -18,15 +18,21 @@ const router = createRouter({
             path: "/auth",
             name: "auth",
             component: AuthView,
+            meta: {
+                authRequired: false,
+            },
         },
     ],
 })
 
 router.beforeEach(async (to, from, next) => {
     try {
-        if (to.meta && to.meta.authRequired && !(await authApi.sessionHealth()))
-            return next({ name: "auth" })
-        else return next()
+        // const isSessionHealthy = await authApi.sessionHealth()
+        // if (to.meta && to.meta.authRequired && isSessionHealthy.success) {
+        //     return next()
+        // }
+
+        return next()
     } catch (error) {
         return next({ name: "auth" })
     }

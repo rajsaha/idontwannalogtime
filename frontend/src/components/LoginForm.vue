@@ -41,13 +41,12 @@
 </template>
 
 <script>
-import { defineComponent } from "vue"
 import { authApi } from "@/api/auth.api"
 import router from "@/router"
 import { createToaster } from "@meforma/vue-toaster"
 const toaster = createToaster()
 
-export default defineComponent({
+export default {
     name: "LoginForm",
     created() {
         this.formId = this.makeId()
@@ -71,13 +70,15 @@ export default defineComponent({
                 }
 
                 this.submitted = true
-                const accessToken = await authApi.login(
-                    this.$formkit.get(this.formId).value
+                const response = await authApi.login(
+                    this.$formkit.get(this.formId).value.email,
+                    this.$formkit.get(this.formId).value.password
                 )
-                if (accessToken) {
+                console.log(response.data)
+                if (response.data) {
                     localStorage.setItem(
                         "access_token",
-                        accessToken.access_token
+                        response.data.access_token
                     )
                     this.$formkit.get(this.formId).reset()
                     await router.push("/")
@@ -94,7 +95,7 @@ export default defineComponent({
             this.$emit("goToSignup")
         },
     },
-})
+}
 </script>
 
 <style scoped>

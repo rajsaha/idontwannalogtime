@@ -36,15 +36,11 @@
 </template>
 
 <script>
-import { defineComponent } from "vue"
 import LoginForm from "@/components/LoginForm.vue"
 import SignupForm from "@/components/SignupForm.vue"
-import { authApi } from "@/api/auth.api"
-import router from "@/router"
 
-export default defineComponent({
-    name: "AuthView",
-    components: { LoginForm, SignupForm },
+export default {
+    components: { SignupForm, LoginForm },
     data() {
         return {
             isLogin: true,
@@ -58,7 +54,7 @@ export default defineComponent({
             this.isLogin = true
         },
     },
-})
+}
 </script>
 
 <style scoped>

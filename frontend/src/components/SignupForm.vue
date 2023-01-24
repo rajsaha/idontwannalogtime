@@ -40,7 +40,7 @@
 <script>
 import { defineComponent } from "vue"
 
-export default defineComponent({
+export default {
     name: "SignupForm",
     created() {
         this.formId = this.makeId()
@@ -73,7 +73,7 @@ export default defineComponent({
             this.$emit("goToLogin")
         },
     },
-})
+}
 </script>
 
 <style scoped>

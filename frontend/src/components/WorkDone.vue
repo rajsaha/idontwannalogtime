@@ -20,7 +20,7 @@ import { defineComponent } from "vue"
 import dayjs from "dayjs"
 import WorkUnit from "@/components/WorkUnit.vue"
 
-export default defineComponent({
+export default {
     components: { WorkUnit },
     data() {
         return {
@@ -70,7 +70,7 @@ export default defineComponent({
             return `${percentage.toFixed(0)}`
         },
     },
-})
+}
 </script>
 
 <style scoped>

@@ -7,13 +7,13 @@ export const authApi = {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
             responseType: "json",
-            baseURL: import.meta.env.API_BASE_URL,
+            baseURL: import.meta.env.VITE_API_BASE_URL,
         })
     },
     login(email: string, password: string): Promise<{ access_token: string }> {
         return axios.post(
             "/auth/login",
-            { email, password },
+            { email: email, password: password },
             { responseType: "json", baseURL: import.meta.env.VITE_API_BASE_URL }
         )
     },

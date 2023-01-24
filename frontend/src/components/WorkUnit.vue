@@ -78,7 +78,7 @@ import { defineComponent } from "vue"
 import { WorkUnit as WorkUnit } from "@/models/WorkUnit"
 import LogTimeForm from "@/components/LogTimeForm.vue"
 
-export default defineComponent({
+export default {
     components: { LogTimeForm },
     props: {
         work: {
@@ -113,7 +113,7 @@ export default defineComponent({
             }
         },
     },
-})
+}
 </script>
 
 <style scoped>

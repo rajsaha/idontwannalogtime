@@ -2,23 +2,26 @@
 import LogTimeForm from "@/components/LogTimeForm.vue"
 import WorkDone from "@/components/WorkDone.vue"
 import LogCalendar from "@/components/LogCalendar.vue"
-import { defineComponent } from "vue"
+import router from "@/router"
 
-export default defineComponent({
+export default {
     components: { LogCalendar, LogTimeForm, WorkDone },
     methods: {
-        async create() {
-            const result = await this.$refs.logTimeForm.submitHandler()
-            if (result) {
-                // TODO: Run API call here
-            }
+        async logout() {
+            localStorage.setItem("access_token", "")
+            // await router.push("auth")
         },
     },
-})
+}
 </script>
 
 <template>
     <main class="p-4">
+        <nav class="py-4 grid justify-end">
+            <ul class="uppercase font-bold cursor-pointer" @click="logout">
+                Logout
+            </ul>
+        </nav>
         <section class="grid home-grid gap-x-6">
             <div class="md:justify-self-end"><LogCalendar /></div>
             <div class="p-4 content shadow-2xl">
