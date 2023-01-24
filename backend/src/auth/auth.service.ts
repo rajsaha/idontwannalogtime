@@ -3,7 +3,7 @@ import { UserService } from '../user/user.service';
 import { PasswordUtil } from '../util/password.util';
 import { User } from '../schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
-import { ENV } from '../util/env.util';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +11,7 @@ export class AuthService {
     private userService: UserService,
     private passwordUtil: PasswordUtil,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async validateUser(
@@ -40,7 +41,7 @@ export class AuthService {
       };
       return {
         access_token: this.jwtService.sign(payload, {
-          secret: ENV.JWT_SECRET_KEY,
+          secret: this.configService.get('JWT_SECRET_KEY'),
         }),
       };
     } catch (error) {

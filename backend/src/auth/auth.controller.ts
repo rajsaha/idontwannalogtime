@@ -12,7 +12,11 @@ import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UserService } from '../user/user.service';
-import { CreateUserDto, CreateUserSchema } from '../user/dto/create-user.dto';
+import {
+  CreateUserDto,
+  CreateUserSchema,
+  LoginSchema,
+} from '../user/dto/create-user.dto';
 import { User } from '../schemas/user.schema';
 import { JoiValidationPipe } from '../util/joi-validation.pipe';
 
@@ -22,6 +26,8 @@ export class AuthController {
     private authService: AuthService,
     private userService: UserService,
   ) {}
+
+  @UsePipes(new JoiValidationPipe(LoginSchema))
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req): Promise<{ access_token: string }> {

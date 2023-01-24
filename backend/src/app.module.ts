@@ -7,9 +7,20 @@ import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { PasswordUtil } from './util/password.util';
 import { AuthController } from './auth/auth.controller';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
+    LoggerModule.forRoot({
+      pinoHttp: {
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
+          },
+        },
+      },
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
       `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.gepognc.mongodb.net/test`,

@@ -1,9 +1,0 @@
-const MONGO_USERNAME = process.env.MONGO_USERNAME;
-const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
-
-export const ENV = {
-  MONGO_USERNAME,
-  MONGO_PASSWORD,
-  JWT_SECRET_KEY,
-};
