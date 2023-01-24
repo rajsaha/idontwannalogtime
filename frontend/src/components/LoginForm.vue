@@ -42,6 +42,10 @@
 
 <script>
 import { defineComponent } from "vue"
+import { authApi } from "@/api/auth.api"
+import router from "@/router"
+import { createToaster } from "@meforma/vue-toaster"
+const toaster = createToaster()
 
 export default defineComponent({
     name: "LoginForm",
@@ -60,14 +64,28 @@ export default defineComponent({
     },
     methods: {
         async submitHandler() {
-            if (!this.node.context.state.valid) {
-                this.node.submit()
-                return false
-            }
+            try {
+                if (!this.node.context.state.valid) {
+                    this.node.submit()
+                    return false
+                }
 
-            this.submitted = true
-            this.$formkit.reset(this.formId)
-            return this.$formkit.get(this.formId).value
+                this.submitted = true
+                const accessToken = await authApi.login(
+                    this.$formkit.get(this.formId).value
+                )
+                if (accessToken) {
+                    localStorage.setItem(
+                        "access_token",
+                        accessToken.access_token
+                    )
+                    this.$formkit.get(this.formId).reset()
+                    await router.push("/")
+                }
+            } catch (error) {
+                toaster.error("Email/Password Incorrect")
+                this.$formkit.get(this.formId).reset()
+            }
         },
         makeId() {
             return Math.random().toString(36).slice(2, 7)
