@@ -25,6 +25,10 @@ export class UserService {
   }
 
   async findOne(username: string): Promise<User> {
-    return this.userModel.findOne({ username });
+    try {
+      return this.userModel.findOne({ username });
+    } catch (error) {
+      Logger.error(error, 'Find one user');
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { PasswordUtil } from '../util/password.util';
 import { User } from '../schemas/user.schema';
@@ -18,26 +18,34 @@ export class AuthService {
     username: string,
     password: string,
   ): Promise<Partial<User>> | null {
-    const user: User = await this.userService.findOne(username);
-    if (
-      user &&
-      (await this.passwordUtil.comparePassword(password, user.password))
-    ) {
-      const { password, ...result } = user;
-      return result;
+    try {
+      const user: User = await this.userService.findOne(username);
+      if (
+        user &&
+        (await this.passwordUtil.comparePassword(password, user.password))
+      ) {
+        const { password, ...result } = user;
+        return result;
+      }
+      return null;
+    } catch (error) {
+      Logger.error(error, 'Validate User');
     }
-    return null;
   }
 
   async login(user: User): Promise<{ access_token: string }> {
-    const payload: { username: string; sub: mongoose.Types.ObjectId } = {
-      username: user.username,
-      sub: user._id,
-    };
-    return {
-      access_token: this.jwtService.sign(payload, {
-        secret: ENV.JWT_SECRET_KEY,
-      }),
-    };
+    try {
+      const payload: { username: string; sub: mongoose.Types.ObjectId } = {
+        username: user.username,
+        sub: user._id,
+      };
+      return {
+        access_token: this.jwtService.sign(payload, {
+          secret: ENV.JWT_SECRET_KEY,
+        }),
+      };
+    } catch (error) {
+      Logger.error(error, 'Login');
+    }
   }
 }

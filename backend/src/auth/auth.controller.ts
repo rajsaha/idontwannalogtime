@@ -23,6 +23,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   async sessionHealth() {
     try {
+      Logger.log(true, 'Session Health');
       return { success: true };
     } catch (error) {
       Logger.error(error);
