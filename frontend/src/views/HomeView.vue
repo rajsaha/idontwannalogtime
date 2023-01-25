@@ -9,7 +9,7 @@ export default {
     methods: {
         async logout() {
             localStorage.setItem("access_token", "")
-            // await router.push("auth")
+            await router.push("/auth")
         },
     },
 }
