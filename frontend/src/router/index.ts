@@ -5,9 +5,8 @@ import { authApi } from "@/api/auth.api"
 
 async function routeGuard(to, from, next) {
     const isSessionHealthy = await authApi.sessionHealth()
-    console.log(isSessionHealthy)
     if (isSessionHealthy && to.name === "auth") {
-        return next({ name: "/" })
+        return next({ name: "home" })
     }
 
     if (!isSessionHealthy) {
@@ -36,6 +35,7 @@ const router = createRouter({
             meta: {
                 authRequired: false,
             },
+            beforeEnter: routeGuard,
         },
     ],
 })

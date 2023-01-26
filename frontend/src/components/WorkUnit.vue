@@ -74,19 +74,13 @@
 </template>
 
 <script>
-import { defineComponent } from "vue"
-import { WorkUnit as WorkUnit } from "@/models/WorkUnit"
 import LogTimeForm from "@/components/LogTimeForm.vue"
 
 export default {
     components: { LogTimeForm },
     props: {
-        work: {
-            type: WorkUnit,
-        },
-        inModal: {
-            type: Boolean,
-        },
+        work: Object,
+        inModal: Boolean,
     },
     data() {
         return {
