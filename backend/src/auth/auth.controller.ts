@@ -42,9 +42,9 @@ export class AuthController {
 
   @Get('session/health')
   @UseGuards(JwtAuthGuard)
-  async sessionHealth(): Promise<{ success: boolean }> {
+  async sessionHealth(@Request() req): Promise<{ success: boolean }> {
     try {
-      Logger.log(true, 'Session Health');
+      Logger.log('Healthy', 'Session Health');
       return { success: true };
     } catch (error) {
       Logger.error(error);

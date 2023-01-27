@@ -5,11 +5,11 @@ import { authApi } from "@/api/auth.api"
 
 async function routeGuard(to, from, next) {
     const isSessionHealthy = await authApi.sessionHealth()
-    if (isSessionHealthy && to.name === "auth") {
-        return next({ name: "home" })
+    if (isSessionHealthy && to.meta.authRequired) {
+        return next()
     }
 
-    if (!isSessionHealthy) {
+    if (!isSessionHealthy && to.meta.authRequired) {
         return next({ name: "auth" })
     }
 
