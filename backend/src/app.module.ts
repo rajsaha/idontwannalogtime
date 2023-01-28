@@ -4,10 +4,12 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { UserController } from './user/user.controller';
-import { UserService } from './user/user.service';
-import { PasswordUtil } from './util/password.util';
 import { AuthController } from './auth/auth.controller';
 import { LoggerModule } from 'nestjs-pino';
+import { LogController } from './log/log.controller';
+import { LogModule } from './log/log.module';
+import { LogTypeController } from './log-type/log-type.controller';
+import { LogTypeModule } from './log-type/log-type.module';
 
 @Module({
   imports: [
@@ -27,8 +29,9 @@ import { LoggerModule } from 'nestjs-pino';
     ),
     AuthModule,
     UserModule,
+    LogModule,
+    LogTypeModule,
   ],
-  controllers: [UserController, AuthController],
-  providers: [UserService, PasswordUtil],
+  controllers: [UserController, AuthController, LogController, LogTypeController],
 })
 export class AppModule {}
