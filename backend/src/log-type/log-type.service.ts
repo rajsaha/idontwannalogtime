@@ -7,6 +7,28 @@ import { UpdateLogTypeDto } from './dto/update-log-type.dto';
 
 @Injectable()
 export class LogTypeService {
+  private logTypes: LogType[] = [
+    {
+      description: 'Development',
+      backgroundColor: '',
+      color: '',
+    },
+    {
+      description: 'Meeting',
+      backgroundColor: '',
+      color: '',
+    },
+    {
+      description: 'Technical Design',
+      backgroundColor: '',
+      color: '',
+    },
+    {
+      description: 'Testing',
+      backgroundColor: '',
+      color: '',
+    },
+  ];
   constructor(
     @InjectModel(LogType.name) private logTypeModel: Model<LogType>,
   ) {}
@@ -53,5 +75,20 @@ export class LogTypeService {
 
   async getLogType(_id: string): Promise<LogType> {
     return this.logTypeModel.findOne({ id: _id });
+  }
+
+  async seedLogTypes(): Promise<void> {
+    try {
+      const existingLogTypes = await this.logTypeModel.find();
+      if (Array.isArray(existingLogTypes) && existingLogTypes.length > 0) {
+        return null;
+      }
+      await this.logTypeModel.insertMany(this.logTypes);
+    } catch (error) {
+      Logger.error(error.message, 'Log Type Seeding');
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: new Error(error.message),
+      });
+    }
   }
 }

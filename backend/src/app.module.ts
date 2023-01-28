@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
@@ -10,6 +10,7 @@ import { LogController } from './log/log.controller';
 import { LogModule } from './log/log.module';
 import { LogTypeController } from './log-type/log-type.controller';
 import { LogTypeModule } from './log-type/log-type.module';
+import { LogTypeService } from './log-type/log-type.service';
 
 @Module({
   imports: [
@@ -32,6 +33,16 @@ import { LogTypeModule } from './log-type/log-type.module';
     LogModule,
     LogTypeModule,
   ],
-  controllers: [UserController, AuthController, LogController, LogTypeController],
+  controllers: [
+    UserController,
+    AuthController,
+    LogController,
+    LogTypeController,
+  ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private readonly logTypeService: LogTypeService) {}
+  async onModuleInit(): Promise<void> {
+    await this.logTypeService.seedLogTypes();
+  }
+}

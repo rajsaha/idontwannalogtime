@@ -8,5 +8,6 @@ import { LogType, LogTypeSchema } from '../schemas/log-type.schema';
     MongooseModule.forFeature([{ name: LogType.name, schema: LogTypeSchema }]),
   ],
   providers: [LogTypeService],
+  exports: [LogTypeService],
 })
 export class LogTypeModule {}
