@@ -4,6 +4,7 @@ import { Log } from '../schemas/log.schema';
 import { Model } from 'mongoose';
 import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
+import { LOG_TIME_PATTERN } from '../constants/regex.constant';
 
 @Injectable()
 export class LogService {
@@ -11,7 +12,15 @@ export class LogService {
 
   async create(createLogDto: CreateLogDto): Promise<Log> {
     try {
-      const createdLog = new this.logModel(createLogDto);
+      const regexArray: Array<string> = LOG_TIME_PATTERN.exec(
+        createLogDto.timeSpent,
+      );
+      const createdLog = new this.logModel({
+        workedOn: createLogDto.workedOn,
+        timeSpent: this.calculateMinutes(regexArray),
+        logType: createLogDto.logType,
+        userId: createLogDto.userId,
+      });
       await this.logModel.init();
       return createdLog.save();
     } catch (error) {
@@ -28,12 +37,15 @@ export class LogService {
       if (!existingLog) {
         throw new HttpException('Log does not exist', HttpStatus.NOT_FOUND);
       }
+      const regexArray: Array<string> = LOG_TIME_PATTERN.exec(
+        updateLogDto.timeSpent,
+      );
       return await this.logModel.findByIdAndUpdate(
         { id: updateLogDto._id },
         {
           $set: {
             workedOn: updateLogDto.workedOn,
-            timeSpent: updateLogDto.timeSpent,
+            timeSpent: this.calculateMinutes(regexArray),
             logType: updateLogDto.logType,
           },
         },
@@ -48,5 +60,27 @@ export class LogService {
 
   async getLog(_id: string): Promise<Log> {
     return this.logModel.findOne({ id: _id });
+  }
+
+  calculateMinutes(regexArray: Array<string>): number {
+    let minutes = 0;
+
+    // Early return if minute appear earlier in the array
+    if (regexArray[2].charAt(0) === 'm') {
+      return minutes + parseInt(regexArray[1]);
+    }
+
+    // Tally minutes if value at index not undefined
+    if (regexArray[4] !== undefined) {
+      minutes += parseInt(regexArray[4]);
+    }
+
+    // Convert hours into minutes
+    // Example: 2 --> 120
+    if (regexArray[1]) {
+      minutes += parseInt(regexArray[1]) * 60;
+    }
+
+    return minutes;
   }
 }

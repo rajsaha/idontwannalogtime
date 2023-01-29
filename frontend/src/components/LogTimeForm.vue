@@ -37,7 +37,7 @@
                     ['required'],
                     [
                         'matches',
-                        /^\d{1,2}\s?(h|hr|hour[s]?|m|min|minute[s]?)\b\s?(\d{1,2}\s?(m|min|minute[s]?)\b)?$/,
+                        /^(\d{1,2})\s?(h|hr|hour[s]?|m|min|minute[s]?)\b\s?((\d{1,2})\s?(m|min|minute[s]?)\b)?$/gm,
                     ],
                 ]"
                 :validation-messages="{
