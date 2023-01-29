@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
 import { LOG_TIME_PATTERN } from '../constants/regex.constant';
+import { calculateMinutes } from '../util/time-spent.util';
 
 @Injectable()
 export class LogService {
@@ -17,7 +18,7 @@ export class LogService {
       );
       const createdLog = new this.logModel({
         workedOn: createLogDto.workedOn,
-        timeSpent: this.calculateMinutes(regexArray),
+        timeSpent: calculateMinutes(regexArray),
         logType: createLogDto.logType,
         userId: createLogDto.userId,
       });
@@ -45,7 +46,7 @@ export class LogService {
         {
           $set: {
             workedOn: updateLogDto.workedOn,
-            timeSpent: this.calculateMinutes(regexArray),
+            timeSpent: calculateMinutes(regexArray),
             logType: updateLogDto.logType,
           },
         },
@@ -63,25 +64,12 @@ export class LogService {
     return this.logModel.findOne({ id: _id });
   }
 
-  calculateMinutes(regexArray: Array<string>): number {
-    let minutes = 0;
-
-    // Early return if minute appear earlier in the array
-    if (regexArray[2].charAt(0) === 'm') {
-      return minutes + parseInt(regexArray[1]);
+  getPrettifiedTime(timeSpent: number): string {
+    if (timeSpent <= 59) {
+      return timeSpent.toString().concat('m');
     }
 
-    // Tally minutes if value at index not undefined
-    if (regexArray[4] !== undefined) {
-      minutes += parseInt(regexArray[4]);
-    }
-
-    // Convert hours into minutes
-    // Example: 2 --> 120
-    if (regexArray[1]) {
-      minutes += parseInt(regexArray[1]) * 60;
-    }
-
-    return minutes;
+    const hours = (timeSpent / 60).toFixed(0);
+    const minutes = timeSpent % 60;
   }
 }
