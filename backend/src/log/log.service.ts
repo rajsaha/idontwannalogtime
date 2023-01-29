@@ -41,7 +41,7 @@ export class LogService {
         updateLogDto.timeSpent,
       );
       return await this.logModel.findByIdAndUpdate(
-        { id: updateLogDto._id },
+        updateLogDto._id,
         {
           $set: {
             workedOn: updateLogDto.workedOn,
@@ -49,6 +49,7 @@ export class LogService {
             logType: updateLogDto.logType,
           },
         },
+        { new: true },
       );
     } catch (error) {
       Logger.error(error.message, 'Update Log');
