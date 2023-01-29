@@ -74,7 +74,6 @@ export default {
                     this.$formkit.get(this.formId).value.email,
                     this.$formkit.get(this.formId).value.password
                 )
-                console.log(response.data)
                 if (response.data) {
                     localStorage.setItem(
                         "access_token",

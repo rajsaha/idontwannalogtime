@@ -5,7 +5,7 @@ import { LogType } from './log-type.schema';
 
 export type LogDocument = HydratedDocument<Log>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Log {
   @Prop({ required: true })
   workedOn: string;
@@ -22,12 +22,6 @@ export class Log {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   userId: User;
-
-  @Prop()
-  createdDate?: Date;
-
-  @Prop()
-  updatedDate?: Date;
 }
 
 export const LogSchema = SchemaFactory.createForClass(Log);

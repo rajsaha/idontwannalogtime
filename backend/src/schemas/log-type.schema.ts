@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type LogTypeDocument = HydratedDocument<LogType>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class LogType {
   @Prop({ required: true })
   description: string;

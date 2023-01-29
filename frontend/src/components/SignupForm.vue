@@ -11,9 +11,10 @@
             incomplete-message=""
         >
             <FormKit
-                type="text"
+                type="email"
                 label="What's your email?"
-                validation="required"
+                name="email"
+                validation="required|email"
                 :validation-messages="{
                     required: 'Required',
                 }"
@@ -21,6 +22,7 @@
             <FormKit
                 type="password"
                 label="What's your password?"
+                name="password"
                 validation="required"
                 :validation-messages="{
                     required: 'Required',
@@ -38,6 +40,10 @@
 </template>
 
 <script>
+import { authApi } from "@/api/auth.api"
+import { createToaster } from "@meforma/vue-toaster"
+const toaster = createToaster()
+
 export default {
     name: "SignupForm",
     created() {
@@ -55,14 +61,25 @@ export default {
     },
     methods: {
         async submitHandler() {
-            if (!this.node.context.state.valid) {
-                this.node.submit()
-                return false
-            }
+            try {
+                if (!this.node.context.state.valid) {
+                    this.node.submit()
+                    return false
+                }
 
-            this.submitted = true
-            this.$formkit.reset(this.formId)
-            return this.$formkit.get(this.formId).value
+                this.submitted = true
+                const response = await authApi.signup(
+                    this.$formkit.get(this.formId).value.email,
+                    this.$formkit.get(this.formId).value.password
+                )
+                if (response.data) {
+                    this.$formkit.reset(this.formId)
+                    this.goToLogin()
+                }
+            } catch (error) {
+                toaster.error(error.message)
+                this.$formkit.get(this.formId).reset()
+            }
         },
         makeId() {
             return Math.random().toString(36).slice(2, 7)
