@@ -6,6 +6,8 @@ import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
 import { LOG_TIME_PATTERN } from '../constants/regex.constant';
 import { calculateMinutes } from '../util/time-spent.util';
+import { GetLogsAtDateDto } from './dto/get-logs-at-date.dto';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class LogService {
@@ -64,6 +66,16 @@ export class LogService {
     return this.logModel.findOne({ id: _id });
   }
 
+  async getLogsForAtDate(getLogsAtDate: GetLogsAtDateDto): Promise<Log[]> {
+    const nextDate: string = dayjs(getLogsAtDate.date)
+      .add(1, 'day')
+      .format('YYYY-MM-DD');
+    return this.logModel.find({
+      createdAt: { $gte: getLogsAtDate.date, $lte: nextDate },
+      userId: getLogsAtDate.userId,
+    });
+  }
+
   getPrettifiedTime(timeSpent: number): string {
     if (timeSpent <= 59) {
       return timeSpent.toString().concat('m');
@@ -71,5 +83,7 @@ export class LogService {
 
     const hours = (timeSpent / 60).toFixed(0);
     const minutes = timeSpent % 60;
+
+    return `${hours}h ${minutes}m`;
   }
 }

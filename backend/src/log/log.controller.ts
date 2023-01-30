@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -14,6 +15,10 @@ import { Log } from '../schemas/log.schema';
 import { UpdateLogDto, UpdateLogSchema } from './dto/update-log.dto';
 import { CreateLogDto, CreateLogSchema } from './dto/create-log.dto';
 import { JoiValidationPipe } from '../util/joi-validation.pipe';
+import {
+  GetLogsAtDateDto,
+  GetLogsAtDateSchema,
+} from './dto/get-logs-at-date.dto';
 
 @Controller('log')
 @UseGuards(JwtAuthGuard)
@@ -23,6 +28,13 @@ export class LogController {
   @Get(':id')
   getLog(@Param() params): Promise<Log> {
     return this.logService.getLog(params.id);
+  }
+
+  @Get('at-date')
+  getLogsAtDate(
+    @Query(new JoiValidationPipe(GetLogsAtDateSchema)) query: GetLogsAtDateDto,
+  ): Promise<Log[]> {
+    return this.logService.getLogsForAtDate(query);
   }
 
   @UsePipes(new JoiValidationPipe(CreateLogSchema))

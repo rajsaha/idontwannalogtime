@@ -41,7 +41,7 @@ export const customTimeSpentValidator: Joi.CustomValidator = (
     }
   }
 
-  if (parseInt(regexArray[1]) > 24) {
+  if (parseInt(regexArray[1]) > 24 && regexArray[2] === 'h') {
     throw new Error('Hours cannot be more than 24');
   }
 
