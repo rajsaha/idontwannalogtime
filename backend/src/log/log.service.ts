@@ -6,14 +6,18 @@ import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
 import { LOG_TIME_PATTERN } from '../constants/regex.constant';
 import { calculateMinutes } from '../util/time-spent.util';
-import { GetLogsAtDateDto } from './dto/get-logs-at-date.dto';
 import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
+import * as timezone from 'dayjs/plugin/timezone';
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Kuala_Lumpur');
 
 @Injectable()
 export class LogService {
   constructor(@InjectModel(Log.name) private logModel: Model<Log>) {}
 
-  async create(createLogDto: CreateLogDto): Promise<Log> {
+  async create(userId: string, createLogDto: CreateLogDto): Promise<Log> {
     try {
       const regexArray: Array<string> = LOG_TIME_PATTERN.exec(
         createLogDto.timeSpent,
@@ -22,7 +26,7 @@ export class LogService {
         workedOn: createLogDto.workedOn,
         timeSpent: calculateMinutes(regexArray),
         logType: createLogDto.logType,
-        userId: createLogDto.userId,
+        userId: userId,
       });
       await this.logModel.init();
       return createdLog.save();
@@ -67,17 +71,18 @@ export class LogService {
   }
 
   async getLogsForAtDate(userId: string, date: string): Promise<Log[]> {
-    console.log(userId, date);
-    // const currentDate: dayjs.Dayjs = dayjs(getLogsAtDate.date);
-    // const nextDate: dayjs.Dayjs = dayjs(getLogsAtDate.date).add(1, 'day');
-    // return this.logModel.find({
-    //   createdAt: {
-    //     $gte: new Date('2023-01-01'),
-    //     $lte: new Date('2023-03-01'),
-    //   },
-    //   userId: getLogsAtDate.userId,
-    // });
-    return null;
+    const offset: number = dayjs(date).utcOffset();
+    const currentDate: dayjs.Dayjs = dayjs(date)
+      .tz('Asia/Kuala_Lumpur')
+      .add(offset, 'minutes');
+    const nextDate: dayjs.Dayjs = dayjs(currentDate).add(1, 'day');
+    return this.logModel.find({
+      createdAt: {
+        $gte: currentDate.format('YYYY-MM-DD'),
+        $lte: nextDate.format('YYYY-MM-DD'),
+      },
+      userId: userId,
+    });
   }
 
   getPrettifiedTime(timeSpent: number): string {

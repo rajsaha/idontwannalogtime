@@ -15,10 +15,6 @@ export class CreateLogDto {
   @IsString()
   @IsNotEmpty()
   public logType: string;
-
-  @IsString()
-  @IsNotEmpty()
-  public userId: string;
 }
 
 export const CreateLogSchema = Joi.object().keys({
@@ -28,5 +24,4 @@ export const CreateLogSchema = Joi.object().keys({
     .custom(customTimeSpentValidator, 'Time spent validator')
     .required(),
   logType: Joi.string().required(),
-  userId: Joi.string().required(),
 });

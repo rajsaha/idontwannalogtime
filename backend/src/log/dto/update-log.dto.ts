@@ -19,10 +19,6 @@ export class UpdateLogDto {
   @IsString()
   @IsNotEmpty()
   public logType: string;
-
-  @IsString()
-  @IsNotEmpty()
-  public userId: string;
 }
 
 export const UpdateLogSchema = Joi.object().keys({
@@ -33,5 +29,4 @@ export const UpdateLogSchema = Joi.object().keys({
     .custom(customTimeSpentValidator, 'Time spent validator')
     .required(),
   logType: Joi.string().required(),
-  userId: Joi.string().required(),
 });
