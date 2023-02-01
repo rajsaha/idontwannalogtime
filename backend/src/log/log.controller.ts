@@ -5,7 +5,7 @@ import {
   Param,
   Patch,
   Post,
-  Query,
+  Request,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -25,16 +25,17 @@ import {
 export class LogController {
   constructor(private logService: LogService) {}
 
+  @Get('at-date/:date')
+  getLogsAtDate(
+    @Request() req,
+    @Param() params: GetLogsAtDateDto,
+  ): Promise<Log[]> {
+    return this.logService.getLogsForAtDate(req.user.userId, params.date);
+  }
+
   @Get(':id')
   getLog(@Param() params): Promise<Log> {
     return this.logService.getLog(params.id);
-  }
-
-  @Get('at-date')
-  getLogsAtDate(
-    @Query(new JoiValidationPipe(GetLogsAtDateSchema)) query: GetLogsAtDateDto,
-  ): Promise<Log[]> {
-    return this.logService.getLogsForAtDate(query);
   }
 
   @UsePipes(new JoiValidationPipe(CreateLogSchema))

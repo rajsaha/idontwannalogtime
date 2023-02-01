@@ -27,6 +27,13 @@ import { LogTypeService } from './log-type/log-type.service';
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
       `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.gepognc.mongodb.net/test`,
+      {
+        connectionFactory: (connection) => {
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          connection.plugin(require('mongoose-timezone'));
+          return connection;
+        },
+      },
     ),
     AuthModule,
     UserModule,

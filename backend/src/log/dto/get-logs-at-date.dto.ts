@@ -5,10 +5,6 @@ export class GetLogsAtDateDto {
   @IsString()
   @IsNotEmpty()
   public date: string;
-
-  @IsString()
-  @IsNotEmpty()
-  public userId: string;
 }
 
 export const GetLogsAtDateSchema = Joi.object().keys({

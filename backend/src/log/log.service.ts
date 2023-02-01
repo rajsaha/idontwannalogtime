@@ -66,14 +66,18 @@ export class LogService {
     return this.logModel.findOne({ id: _id });
   }
 
-  async getLogsForAtDate(getLogsAtDate: GetLogsAtDateDto): Promise<Log[]> {
-    const nextDate: string = dayjs(getLogsAtDate.date)
-      .add(1, 'day')
-      .format('YYYY-MM-DD');
-    return this.logModel.find({
-      createdAt: { $gte: getLogsAtDate.date, $lte: nextDate },
-      userId: getLogsAtDate.userId,
-    });
+  async getLogsForAtDate(userId: string, date: string): Promise<Log[]> {
+    console.log(userId, date);
+    // const currentDate: dayjs.Dayjs = dayjs(getLogsAtDate.date);
+    // const nextDate: dayjs.Dayjs = dayjs(getLogsAtDate.date).add(1, 'day');
+    // return this.logModel.find({
+    //   createdAt: {
+    //     $gte: new Date('2023-01-01'),
+    //     $lte: new Date('2023-03-01'),
+    //   },
+    //   userId: getLogsAtDate.userId,
+    // });
+    return null;
   }
 
   getPrettifiedTime(timeSpent: number): string {

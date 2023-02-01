@@ -17,15 +17,14 @@ export class AuthService {
   async validateUser(
     email: string,
     password: string,
-  ): Promise<Partial<User>> | null {
+  ): Promise<Omit<User, 'password'>> | null {
     try {
       const user: User = await this.userService.findOne(email);
       if (
         user &&
         (await this.passwordUtil.comparePassword(password, user.password))
       ) {
-        const { password, ...result } = user;
-        return result;
+        return user;
       }
       return null;
     } catch (error) {
@@ -35,9 +34,8 @@ export class AuthService {
 
   async login(user: User): Promise<{ access_token: string }> {
     try {
-      const payload: { email: string; sub: string } = {
-        email: user.email,
-        sub: user.password,
+      const payload: { sub: string } = {
+        sub: user._id.toString(),
       };
       return {
         access_token: this.jwtService.sign(payload, {
