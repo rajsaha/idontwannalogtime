@@ -20,10 +20,11 @@ export class LogService {
   async create(userId: string, createLogDto: CreateLogDto): Promise<Log> {
     try {
       const regexArray: Array<string> = LOG_TIME_PATTERN.exec(
-        createLogDto.timeSpent,
+        createLogDto.timeSpentInPlainEnglish,
       );
       const createdLog = new this.logModel({
         workedOn: createLogDto.workedOn,
+        timeSpentInPlainEnglish: createLogDto.timeSpentInPlainEnglish,
         timeSpent: calculateMinutes(regexArray),
         logType: createLogDto.logType,
         userId: userId,
@@ -45,13 +46,14 @@ export class LogService {
         throw new HttpException('Log does not exist', HttpStatus.NOT_FOUND);
       }
       const regexArray: Array<string> = LOG_TIME_PATTERN.exec(
-        updateLogDto.timeSpent,
+        updateLogDto.timeSpentInPlainEnglish,
       );
       return await this.logModel.findByIdAndUpdate(
         updateLogDto._id,
         {
           $set: {
             workedOn: updateLogDto.workedOn,
+            timeSpentInPlainEnglish: updateLogDto.timeSpentInPlainEnglish,
             timeSpent: calculateMinutes(regexArray),
             logType: updateLogDto.logType,
           },
@@ -83,16 +85,5 @@ export class LogService {
       },
       userId: userId,
     });
-  }
-
-  getPrettifiedTime(timeSpent: number): string {
-    if (timeSpent <= 59) {
-      return timeSpent.toString().concat('m');
-    }
-
-    const hours = (timeSpent / 60).toFixed(0);
-    const minutes = timeSpent % 60;
-
-    return `${hours}h ${minutes}m`;
   }
 }

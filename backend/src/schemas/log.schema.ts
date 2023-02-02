@@ -11,6 +11,9 @@ export class Log {
   workedOn: string;
 
   @Prop({ required: true })
+  timeSpentInPlainEnglish: string;
+
+  @Prop({ required: true })
   timeSpent: number;
 
   @Prop({

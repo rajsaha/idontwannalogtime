@@ -14,7 +14,7 @@ export class UpdateLogDto {
 
   @IsString()
   @IsNotEmpty()
-  public timeSpent: string;
+  public timeSpentInPlainEnglish: string;
 
   @IsString()
   @IsNotEmpty()
@@ -24,7 +24,7 @@ export class UpdateLogDto {
 export const UpdateLogSchema = Joi.object().keys({
   _id: Joi.string().required(),
   workedOn: Joi.string().required(),
-  timeSpent: Joi.string()
+  timeSpentInPlainEnglish: Joi.string()
     .pattern(new RegExp(LOG_TIME_PATTERN))
     .custom(customTimeSpentValidator, 'Time spent validator')
     .required(),
