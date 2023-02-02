@@ -29,7 +29,7 @@ export class LogController {
     @Param('date', ValidateDatePipe)
     params,
   ): Promise<Log[]> {
-    return this.logService.getLogsForAtDate(req.user.userId, params.date);
+    return this.logService.getLogsAtDate(req.user.userId, params.date);
   }
 
   @Get(':id')

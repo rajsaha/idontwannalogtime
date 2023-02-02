@@ -77,6 +77,10 @@ export class LogTypeService {
     return this.logTypeModel.findOne({ id: _id });
   }
 
+  async getLogTypes(): Promise<LogType[]> {
+    return this.logTypeModel.find();
+  }
+
   async seedLogTypes(): Promise<void> {
     try {
       const existingLogTypes = await this.logTypeModel.find();

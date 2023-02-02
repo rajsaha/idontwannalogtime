@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Log } from '../../schemas/log.schema';
 import { Model } from 'mongoose';
@@ -17,10 +23,22 @@ export class LogService {
       const regexArray: Array<string> = LOG_TIME_PATTERN.exec(
         createLogDto.timeSpentInPlainEnglish,
       );
+
+      const timeSpent = calculateMinutes(regexArray);
+      const canAddLog = await this.getTimeSpentForDate(
+        userId,
+        createLogDto.date,
+        timeSpent,
+      );
+
+      if (!canAddLog) {
+        throw new BadRequestException('Time spent cannot exceed 24 hours!');
+      }
+
       const createdLog = new this.logModel({
         workedOn: createLogDto.workedOn,
         timeSpentInPlainEnglish: createLogDto.timeSpentInPlainEnglish,
-        timeSpent: calculateMinutes(regexArray),
+        timeSpent: timeSpent,
         logType: createLogDto.logType,
         userId: userId,
         date: createLogDto.date,
@@ -68,7 +86,7 @@ export class LogService {
     return this.logModel.findOne({ id: _id });
   }
 
-  async getLogsForAtDate(userId: string, date: string): Promise<Log[]> {
+  async getLogsAtDate(userId: string, date: string): Promise<Log[]> {
     const currentDate: dayjs.Dayjs = dayjs(date);
     const nextDate: dayjs.Dayjs = dayjs(currentDate).add(1, 'day');
     return this.logModel.find({
@@ -82,5 +100,23 @@ export class LogService {
 
   async deleteLog(_id: string): Promise<Log> {
     return this.logModel.findByIdAndDelete(_id);
+  }
+
+  async getTimeSpentForDate(
+    userId: string,
+    date: string,
+    newLogTimeSpent: number,
+  ): Promise<boolean> {
+    const logs: Array<Log> = await this.getLogsAtDate(userId, date);
+    let tally = 0;
+    logs.forEach((log) => {
+      tally += log.timeSpent;
+    });
+
+    if (tally + newLogTimeSpent > 1440) {
+      return false;
+    }
+
+    return true;
   }
 }
