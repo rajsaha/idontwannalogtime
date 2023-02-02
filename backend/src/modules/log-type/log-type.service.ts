@@ -4,6 +4,7 @@ import { LogType } from '../../schemas/log-type.schema';
 import { Model } from 'mongoose';
 import { CreateLogTypeDto } from './dto/create-log-type.dto';
 import { UpdateLogTypeDto } from './dto/update-log-type.dto';
+import { Dropdown } from '../../interfaces/dropdown.interface';
 
 @Injectable()
 export class LogTypeService {
@@ -77,8 +78,14 @@ export class LogTypeService {
     return this.logTypeModel.findOne({ id: _id });
   }
 
-  async getLogTypes(): Promise<LogType[]> {
-    return this.logTypeModel.find();
+  async getLogTypes(): Promise<Dropdown[]> {
+    const logTypes: LogType[] = await this.logTypeModel.find();
+    return logTypes.map((logType) => {
+      return {
+        value: logType._id,
+        label: logType.description,
+      };
+    });
   }
 
   async seedLogTypes(): Promise<void> {

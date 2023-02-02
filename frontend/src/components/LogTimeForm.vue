@@ -62,6 +62,7 @@
 import dayjs from "dayjs"
 import advancedFormat from "dayjs/plugin/advancedFormat"
 import { useCounterStore } from "@/stores/state"
+import { logTypeApi } from "@/api/log-type.api";
 
 dayjs.extend(advancedFormat)
 
@@ -71,20 +72,12 @@ export default {
     },
     mounted() {
         this.node = this.$formkit.get(this.formId)
+        this.getLogTypes()
     },
     data() {
         return {
             date: dayjs().format("Do MMMM, YYYY"),
-            logTypes: [
-                {
-                    value: 1,
-                    label: "Development",
-                },
-                {
-                    value: 2,
-                    label: "Meeting",
-                },
-            ],
+            logTypes: [],
             submitted: false,
             node: undefined,
             formId: null,
@@ -109,6 +102,11 @@ export default {
         },
         makeId() {
             return Math.random().toString(36).slice(2, 7)
+        },
+        async getLogTypes() {
+            logTypeApi.getLogTypes().then((result) => {
+                this.logTypes = result.data
+            })
         },
     },
     setup() {
