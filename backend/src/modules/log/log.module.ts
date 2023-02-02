@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from '../schemas/user.schema';
+import { User, UserSchema } from '../../schemas/user.schema';
 import { UserService } from '../user/user.service';
 import { LogService } from './log.service';
-import { Log, LogSchema } from '../schemas/log.schema';
-import { LogType, LogTypeSchema } from '../schemas/log-type.schema';
+import { Log, LogSchema } from '../../schemas/log.schema';
+import { LogType, LogTypeSchema } from '../../schemas/log-type.schema';
 import { LogController } from './log.controller';
-import { PasswordUtil } from '../util/password.util';
+import { PasswordUtil } from '../../util/password.util';
 
 @Module({
   imports: [

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -11,11 +12,11 @@ import {
 } from '@nestjs/common';
 import { LogService } from './log.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Log } from '../schemas/log.schema';
+import { Log } from '../../schemas/log.schema';
 import { UpdateLogDto, UpdateLogSchema } from './dto/update-log.dto';
 import { CreateLogDto, CreateLogSchema } from './dto/create-log.dto';
-import { JoiValidationPipe } from '../util/joi-validation.pipe';
-import { GetLogsAtDateDto } from './dto/get-logs-at-date.dto';
+import { JoiValidationPipe } from '../../util/joi-validation.pipe';
+import { ValidateDatePipe } from '../../pipes/date.pipe';
 
 @Controller('log')
 @UseGuards(JwtAuthGuard)
@@ -25,7 +26,8 @@ export class LogController {
   @Get('at-date/:date')
   getLogsAtDate(
     @Request() req,
-    @Param() params: GetLogsAtDateDto,
+    @Param('date', ValidateDatePipe)
+    params,
   ): Promise<Log[]> {
     return this.logService.getLogsForAtDate(req.user.userId, params.date);
   }
@@ -45,5 +47,10 @@ export class LogController {
   @Patch()
   update(@Body() updateLogDto: UpdateLogDto): Promise<Log> {
     return this.logService.update(updateLogDto);
+  }
+
+  @Delete(':id')
+  delete(@Param() params): Promise<Log> {
+    return this.logService.deleteLog(params.id);
   }
 }

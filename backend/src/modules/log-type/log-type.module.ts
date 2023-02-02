@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { LogTypeService } from './log-type.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { LogType, LogTypeSchema } from '../schemas/log-type.schema';
+import { LogType, LogTypeSchema } from '../../schemas/log-type.schema';
 
 @Module({
   imports: [

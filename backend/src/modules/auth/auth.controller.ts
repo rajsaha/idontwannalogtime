@@ -17,8 +17,8 @@ import {
   CreateUserSchema,
   LoginSchema,
 } from '../user/dto/create-user.dto';
-import { User } from '../schemas/user.schema';
-import { JoiValidationPipe } from '../util/joi-validation.pipe';
+import { User } from '../../schemas/user.schema';
+import { JoiValidationPipe } from '../../util/joi-validation.pipe';
 
 @Controller('auth')
 export class AuthController {

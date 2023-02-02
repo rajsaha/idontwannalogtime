@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { PasswordUtil } from '../util/password.util';
-import { User } from '../schemas/user.schema';
+import { PasswordUtil } from '../../util/password.util';
+import { User } from '../../schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 

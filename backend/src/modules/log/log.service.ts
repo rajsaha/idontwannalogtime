@@ -1,17 +1,12 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Log } from '../schemas/log.schema';
+import { Log } from '../../schemas/log.schema';
 import { Model } from 'mongoose';
 import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
-import { LOG_TIME_PATTERN } from '../constants/regex.constant';
-import { calculateMinutes } from '../util/time-spent.util';
+import { LOG_TIME_PATTERN } from '../../constants/regex.constant';
+import { calculateMinutes } from '../../util/time-spent.util';
 import * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc';
-import * as timezone from 'dayjs/plugin/timezone';
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Kuala_Lumpur');
 
 @Injectable()
 export class LogService {
@@ -28,6 +23,7 @@ export class LogService {
         timeSpent: calculateMinutes(regexArray),
         logType: createLogDto.logType,
         userId: userId,
+        date: createLogDto.date,
       });
       await this.logModel.init();
       return createdLog.save();
@@ -73,17 +69,18 @@ export class LogService {
   }
 
   async getLogsForAtDate(userId: string, date: string): Promise<Log[]> {
-    const offset: number = dayjs(date).utcOffset();
-    const currentDate: dayjs.Dayjs = dayjs(date)
-      .tz('Asia/Kuala_Lumpur')
-      .add(offset, 'minutes');
+    const currentDate: dayjs.Dayjs = dayjs(date);
     const nextDate: dayjs.Dayjs = dayjs(currentDate).add(1, 'day');
     return this.logModel.find({
-      createdAt: {
+      date: {
         $gte: currentDate.format('YYYY-MM-DD'),
-        $lte: nextDate.format('YYYY-MM-DD'),
+        $lt: nextDate.format('YYYY-MM-DD'),
       },
       userId: userId,
     });
+  }
+
+  async deleteLog(_id: string): Promise<Log> {
+    return this.logModel.findByIdAndDelete(_id);
   }
 }

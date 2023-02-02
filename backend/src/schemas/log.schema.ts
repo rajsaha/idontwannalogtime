@@ -25,6 +25,9 @@ export class Log {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   userId: User;
+
+  @Prop({ type: Date, required: true, default: Date.now })
+  date: Date;
 }
 
 export const LogSchema = SchemaFactory.createForClass(Log);

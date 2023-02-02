@@ -1,16 +1,16 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { UserController } from './user/user.controller';
-import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { UserController } from './modules/user/user.controller';
+import { AuthController } from './modules/auth/auth.controller';
 import { LoggerModule } from 'nestjs-pino';
-import { LogController } from './log/log.controller';
-import { LogModule } from './log/log.module';
-import { LogTypeController } from './log-type/log-type.controller';
-import { LogTypeModule } from './log-type/log-type.module';
-import { LogTypeService } from './log-type/log-type.service';
+import { LogController } from './modules/log/log.controller';
+import { LogModule } from './modules/log/log.module';
+import { LogTypeController } from './modules/log-type/log-type.controller';
+import { LogTypeModule } from './modules/log-type/log-type.module';
+import { LogTypeService } from './modules/log-type/log-type.service';
 
 @Module({
   imports: [

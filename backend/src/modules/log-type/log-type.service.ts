@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { LogType } from '../schemas/log-type.schema';
+import { LogType } from '../../schemas/log-type.schema';
 import { Model } from 'mongoose';
 import { CreateLogTypeDto } from './dto/create-log-type.dto';
 import { UpdateLogTypeDto } from './dto/update-log-type.dto';

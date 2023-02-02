@@ -1,9 +1,13 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import * as Joi from 'joi';
-import { LOG_TIME_PATTERN } from '../../constants/regex.constant';
-import { customTimeSpentValidator } from '../../util/time-spent.util';
+import { LOG_TIME_PATTERN } from '../../../constants/regex.constant';
+import { customTimeSpentValidator } from '../../../util/time-spent.util';
 
-export class CreateLogDto {
+export class UpdateLogDto {
+  @IsString()
+  @IsNotEmpty()
+  public _id: string;
+
   @IsString()
   @IsNotEmpty()
   public workedOn: string;
@@ -17,7 +21,8 @@ export class CreateLogDto {
   public logType: string;
 }
 
-export const CreateLogSchema = Joi.object().keys({
+export const UpdateLogSchema = Joi.object().keys({
+  _id: Joi.string().required(),
   workedOn: Joi.string().required(),
   timeSpentInPlainEnglish: Joi.string()
     .pattern(new RegExp(LOG_TIME_PATTERN))
