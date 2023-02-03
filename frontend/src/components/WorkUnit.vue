@@ -8,7 +8,7 @@
         <p class="max-w-max text-ellipsis font-medium">
             {{ getTruncatedDescription }}
         </p>
-        <small class="mb-2">{{ getFormattedDate }}</small>
+        <small class="mb-2">Last Updated: {{ getFormattedDate }}</small>
 
         <Transition appear name="slide-fade">
             <div
@@ -96,7 +96,7 @@ export default {
             return `${this.work.timeSpentInPlainEnglish} on ${this.work.workedOn}`
         },
         getFormattedDate() {
-            return dayjs(this.work.createdAt).utc().format("YYYY-MM-DD HH:mm")
+            return dayjs(new Date(this.work.updatedAt)).format("YYYY-MM-DD HH:mm:ss")
         },
     },
     methods: {

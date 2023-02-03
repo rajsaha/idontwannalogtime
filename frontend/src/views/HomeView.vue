@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .home-grid {
-    grid-template-columns: min-content max-content;
+    grid-template-columns: min-content minmax(400px, max-content);
     justify-content: center;
 }
 
