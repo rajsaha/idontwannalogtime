@@ -1,17 +1,13 @@
 import axios from "axios"
+import { AxiosConfigConstant } from "@/constants/axios-config.constant"
 
 export const authApi = {
     async sessionHealth(): Promise<boolean> {
         try {
-            const isHealthy = await axios.get("/auth/session/health", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem(
-                        "access_token"
-                    )}`,
-                },
-                responseType: "json",
-                baseURL: import.meta.env.VITE_API_BASE_URL,
-            })
+            const isHealthy = await axios.get(
+                "/auth/session/health",
+                AxiosConfigConstant
+            )
 
             return isHealthy.data.success
         } catch (error) {

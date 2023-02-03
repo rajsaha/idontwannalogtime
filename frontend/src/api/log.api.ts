@@ -1,13 +1,11 @@
 import axios from "axios"
+import { AxiosConfigConstant } from "@/constants/axios-config.constant"
 
 export const logApi = {
     async getLogs(date: string) {
-        return axios.get(`/log/at-date/${date}`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-            responseType: "json",
-            baseURL: import.meta.env.VITE_API_BASE_URL,
-        })
+        return axios.get(`/log/at-date/${date}`, AxiosConfigConstant)
+    },
+    async getLog(_id: string) {
+        return axios.get(`/log/${_id}`, AxiosConfigConstant)
     },
 }
