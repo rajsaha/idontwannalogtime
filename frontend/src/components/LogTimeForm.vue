@@ -103,7 +103,7 @@ export default {
         makeId() {
             return Math.random().toString(36).slice(2, 7)
         },
-        async getLogTypes() {
+        getLogTypes() {
             logTypeApi.getLogTypes().then((result) => {
                 this.logTypes = result.data
             })

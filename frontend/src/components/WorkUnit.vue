@@ -90,7 +90,7 @@ export default {
     },
     computed: {
         getTruncatedDescription() {
-            return `${this.work.duration} on ${this.work.description}`
+            return `${this.work.timeSpentInPlainEnglish} on ${this.work.workedOn}`
         },
     },
     methods: {

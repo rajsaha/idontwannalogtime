@@ -10,28 +10,27 @@
             >{{ totalMinutes }} of 540 minutes (standard 8 hour workday)</small
         >
         <li class="list-none">
-            <WorkUnit v-for="item in items" :key="item" :work="item"></WorkUnit>
+            <WorkUnit v-for="log in logs" :key="log" :work="log"></WorkUnit>
         </li>
     </section>
 </template>
 
 <script>
-import dayjs from "dayjs"
 import WorkUnit from "@/components/WorkUnit.vue"
-import { WorkLogUnit } from "@/models/WorkUnit"
+import { logApi } from "@/api/log.api";
 
 export default {
     components: { WorkUnit },
     data() {
         return {
-            items: [],
+            logs: [],
         }
     },
     computed: {
         totalMinutes() {
             let minutes = 0
-            for (const item of this.items) {
-                minutes += item.durationInMinutes
+            for (const log of this.logs) {
+                minutes += log.timeSpent
             }
             return minutes
         },
@@ -41,37 +40,14 @@ export default {
         },
     },
     mounted() {
-        this.items = [
-            {
-                duration: "4h 20m",
-                durationInMinutes: 260,
-                description:
-                    "Reviewing tech design doc with Chun Weng (1447 - user attributes)",
-                logType: "Development",
-                createdAt: dayjs().format("h:m:s a"),
-            },
-            {
-                duration: "40m",
-                durationInMinutes: 40,
-                description: "Standup",
-                logType: "Meeting",
-                createdAt: dayjs().format("h:m:s a"),
-            },
-            {
-                duration: "40m",
-                durationInMinutes: 40,
-                description: "Meeting with Mike",
-                logType: "Meeting",
-                createdAt: dayjs().format("h:m:s a"),
-            },
-            {
-                duration: "1h 10m",
-                durationInMinutes: 70,
-                description: "Meeting with Mike",
-                logType: "Meeting",
-                createdAt: dayjs().format("h:m:s a"),
-            },
-        ]
+        this.getLogs()
+    },
+    methods: {
+        getLogs() {
+            logApi.getLogs().then((result) => {
+                this.logs = result.data
+            })
+        },
     },
 }
 </script>
