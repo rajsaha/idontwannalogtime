@@ -18,11 +18,14 @@
 <script>
 import WorkUnit from "@/components/WorkUnit.vue"
 import { logApi } from "@/api/log.api"
+import { useCounterStore } from "@/stores/state"
+import dayjs from "dayjs"
 
 export default {
     components: { WorkUnit },
     data() {
         return {
+            date: dayjs().format("YYYY-MM-DD"),
             logs: [],
         }
     },
@@ -44,9 +47,23 @@ export default {
     },
     methods: {
         getLogs() {
-            logApi.getLogs().then((result) => {
-                this.logs = result.data
-            })
+            logApi
+                .getLogs(dayjs(this.store.date).format("YYYY-MM-DD"))
+                .then((result) => {
+                    this.logs = result.data
+                })
+        },
+    },
+    setup() {
+        const store = useCounterStore()
+
+        return { store }
+    },
+    watch: {
+        "store.date": {
+            handler() {
+                this.getLogs()
+            },
         },
     },
 }

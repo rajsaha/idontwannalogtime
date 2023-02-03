@@ -1,8 +1,8 @@
 import axios from "axios"
 
 export const logApi = {
-    async getLogs() {
-        return axios.get("/log/at-date/2023-02-02", {
+    async getLogs(date: string) {
+        return axios.get(`/log/at-date/${date}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },

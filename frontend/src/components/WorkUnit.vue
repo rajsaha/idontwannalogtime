@@ -76,7 +76,7 @@
 <script>
 import LogTimeForm from "@/components/LogTimeForm.vue"
 import * as dayjs from "dayjs"
-import * as utc from 'dayjs/plugin/utc'
+import * as utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
 
 export default {
@@ -96,7 +96,7 @@ export default {
             return `${this.work.timeSpentInPlainEnglish} on ${this.work.workedOn}`
         },
         getFormattedDate() {
-            return dayjs(this.work.createdAt).utc().format('YYYY-MM-DD HH:mm')
+            return dayjs(this.work.createdAt).utc().format("YYYY-MM-DD HH:mm")
         },
     },
     methods: {
