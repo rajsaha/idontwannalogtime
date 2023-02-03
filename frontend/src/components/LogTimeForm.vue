@@ -22,6 +22,7 @@
             <FormKit
                 type="text"
                 label="What did you work on?"
+                name="workedOn"
                 help="Worked on POST API"
                 validation="required|length:1, 75"
                 :validation-messages="{
@@ -32,6 +33,7 @@
             <FormKit
                 type="text"
                 label="How much time did you spend on it?"
+                name="timeSpentInPlainEnglish"
                 help="2h 20m"
                 :validation="[
                     ['required'],
@@ -48,6 +50,7 @@
             <FormKit
                 type="select"
                 label="What kind of work did you do?"
+                name="logType"
                 placeholder="Select a type"
                 :options="logTypes"
                 validation="required"
@@ -62,7 +65,7 @@
 import dayjs from "dayjs"
 import advancedFormat from "dayjs/plugin/advancedFormat"
 import { useCounterStore } from "@/stores/state"
-import { logTypeApi } from "@/api/log-type.api";
+import { logTypeApi } from "@/api/log-type.api"
 
 dayjs.extend(advancedFormat)
 
@@ -70,9 +73,16 @@ export default {
     created() {
         this.formId = this.makeId()
     },
-    mounted() {
+    async mounted() {
         this.node = this.$formkit.get(this.formId)
-        this.getLogTypes()
+        await this.getLogTypes()
+        if (this.workLog) {
+            this.node.input({
+                workedOn: this.workLog.workedOn,
+                timeSpentInPlainEnglish: this.workLog.timeSpentInPlainEnglish,
+                logType: this.workLog.logType,
+            })
+        }
     },
     data() {
         return {
@@ -103,10 +113,8 @@ export default {
         makeId() {
             return Math.random().toString(36).slice(2, 7)
         },
-        getLogTypes() {
-            logTypeApi.getLogTypes().then((result) => {
-                this.logTypes = result.data
-            })
+        async getLogTypes() {
+            this.logTypes = (await logTypeApi.getLogTypes()).data
         },
     },
     setup() {
@@ -123,6 +131,10 @@ export default {
         inModal: {
             type: Boolean,
             default: false,
+        },
+        workLog: {
+            type: Object,
+            default: null,
         },
     },
 }

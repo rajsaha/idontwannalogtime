@@ -9,8 +9,8 @@
         <small class="block mb-4 text-right"
             >{{ totalMinutes }} of 540 minutes (standard 8 hour workday)</small
         >
-        <li class="list-none">
-            <WorkUnit v-for="log in logs" :key="log" :work="log"></WorkUnit>
+        <li class="list-none" v-if="logs.length > 0">
+            <WorkUnit v-for="log in logs" :key="log._id" :work="log"></WorkUnit>
         </li>
     </section>
 </template>
@@ -42,16 +42,16 @@ export default {
             return `${percentage.toFixed(0)}`
         },
     },
-    mounted() {
-        this.getLogs()
+    async mounted() {
+        await this.getLogs()
     },
     methods: {
-        getLogs() {
-            logApi
-                .getLogs(dayjs(this.store.date).format("YYYY-MM-DD"))
-                .then((result) => {
-                    this.logs = result.data
-                })
+        async getLogs() {
+            this.logs = (
+                await logApi.getLogs(
+                    dayjs(this.store.date).format("YYYY-MM-DD")
+                )
+            ).data
         },
     },
     setup() {

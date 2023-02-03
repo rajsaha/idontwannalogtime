@@ -45,6 +45,7 @@
                                 <slot name="body">
                                     <LogTimeForm
                                         :inModal="true"
+                                        :workLog="workLog"
                                         ref="logTimeForm"
                                     ></LogTimeForm>
                                 </slot>
@@ -76,6 +77,7 @@
 
 <script>
 import LogTimeForm from "@/components/LogTimeForm.vue"
+import { logApi } from "@/api/log.api";
 import * as dayjs from "dayjs"
 import * as utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
@@ -83,13 +85,17 @@ dayjs.extend(utc)
 export default {
     components: { LogTimeForm },
     props: {
-        work: Object,
+        work: {
+            type: Object,
+            default: null,
+        },
         inModal: Boolean,
     },
     data() {
         return {
             isBeingHovered: false,
             open: false,
+            workLog: Object,
         }
     },
     computed: {
@@ -97,11 +103,14 @@ export default {
             return `${this.work.timeSpentInPlainEnglish} on ${this.work.workedOn}`
         },
         getFormattedDate() {
-            return dayjs(new Date(this.work.updatedAt)).format("YYYY-MM-DD HH:mm:ss")
+            return dayjs(new Date(this.work.updatedAt)).format(
+                "YYYY-MM-DD HH:mm:ss"
+            )
         },
     },
     methods: {
-        updateWorkUnitDialog() {
+        async updateWorkUnitDialog() {
+            await this.getLog()
             this.open = true
         },
         cancel() {
@@ -112,6 +121,9 @@ export default {
             if (result) {
                 this.open = false
             }
+        },
+        async getLog() {
+            this.workLog = (await logApi.getLog(this.work._id)).data
         },
     },
 }
