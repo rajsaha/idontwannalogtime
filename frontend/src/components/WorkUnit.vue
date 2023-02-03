@@ -4,11 +4,11 @@
         @mouseenter="isBeingHovered = true"
         @mouseleave="isBeingHovered = false"
     >
-        <small>#{{ work.logType }}</small>
+        <small>#{{ work.logTypeDescription }}</small>
         <p class="max-w-max text-ellipsis font-medium">
             {{ getTruncatedDescription }}
         </p>
-        <small class="mb-2">{{ work.createdAt }}</small>
+        <small class="mb-2">{{ getFormattedDate }}</small>
 
         <Transition appear name="slide-fade">
             <div
@@ -75,6 +75,9 @@
 
 <script>
 import LogTimeForm from "@/components/LogTimeForm.vue"
+import * as dayjs from "dayjs"
+import * as utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
 
 export default {
     components: { LogTimeForm },
@@ -91,6 +94,9 @@ export default {
     computed: {
         getTruncatedDescription() {
             return `${this.work.timeSpentInPlainEnglish} on ${this.work.workedOn}`
+        },
+        getFormattedDate() {
+            return dayjs(this.work.createdAt).utc().format('YYYY-MM-DD HH:mm')
         },
     },
     methods: {

@@ -17,7 +17,7 @@
 
 <script>
 import WorkUnit from "@/components/WorkUnit.vue"
-import { logApi } from "@/api/log.api";
+import { logApi } from "@/api/log.api"
 
 export default {
     components: { WorkUnit },

@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Log } from '../../schemas/log.schema';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateLogDto } from './dto/create-log.dto';
 import { UpdateLogDto } from './dto/update-log.dto';
 import { LOG_TIME_PATTERN } from '../../constants/regex.constant';
@@ -89,13 +89,44 @@ export class LogService {
   async getLogsAtDate(userId: string, date: string): Promise<Log[]> {
     const currentDate: dayjs.Dayjs = dayjs(date);
     const nextDate: dayjs.Dayjs = dayjs(currentDate).add(1, 'day');
-    return this.logModel.find({
-      date: {
-        $gte: currentDate.format('YYYY-MM-DD'),
-        $lt: nextDate.format('YYYY-MM-DD'),
+    return this.logModel.aggregate([
+      {
+        $lookup: {
+          from: 'logtypes',
+          localField: 'logType',
+          foreignField: '_id',
+          as: 'logTypes',
+        },
       },
-      userId: userId,
-    });
+      {
+        $unwind: {
+          path: '$logTypes',
+        },
+      },
+      {
+        $match: {
+          date: {
+            $gte: currentDate.toDate(),
+            $lt: nextDate.toDate(),
+          },
+          userId: new mongoose.Types.ObjectId(userId),
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          workedOn: 1,
+          timeSpent: 1,
+          timeSpentInPlainEnglish: 1,
+          logType: '$logTypes._id',
+          logTypeDescription: '$logTypes.description',
+          date: 1,
+          userId: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
+      },
+    ]);
   }
 
   async deleteLog(_id: string): Promise<Log> {
