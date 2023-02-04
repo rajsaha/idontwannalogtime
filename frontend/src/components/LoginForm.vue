@@ -80,7 +80,7 @@ export default {
                         response.data.access_token
                     )
                     this.$formkit.get(this.formId).reset()
-                    await router.push("/")
+                    await router.go()
                 }
             } catch (error) {
                 toaster.error("Email/Password Incorrect")
