@@ -88,7 +88,7 @@
 
                             <div class="modal-body">
                                 <slot name="body">
-                                    <p>Are you sure you want to delete <b>{{ work.workedOn }}</b></p>
+                                    <p>Are you sure you want to delete <b>{{ work.workedOn }}?</b></p>
                                 </slot>
                             </div>
 
