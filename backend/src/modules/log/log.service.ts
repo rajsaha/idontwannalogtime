@@ -83,7 +83,7 @@ export class LogService {
   }
 
   async getLog(_id: string): Promise<Log> {
-    return this.logModel.findOne({ id: _id });
+    return this.logModel.findById(_id);
   }
 
   async getLogsAtDate(userId: string, date: string): Promise<Log[]> {

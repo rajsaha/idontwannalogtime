@@ -111,7 +111,6 @@ export default {
     methods: {
         async updateWorkUnitDialog() {
             await this.getLog()
-            this.open = true
         },
         cancel() {
             this.open = false
@@ -124,6 +123,7 @@ export default {
         },
         async getLog() {
             this.workLog = (await logApi.getLog(this.work._id)).data
+            this.open = true
         },
     },
 }
