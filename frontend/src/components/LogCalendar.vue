@@ -1,5 +1,5 @@
 <template>
-    <DatePicker v-model="store.date" @dayclick="updateDate" />
+    <DatePicker v-model="store.date" color="teal" @dayclick="updateDate" />
 </template>
 
 <script>

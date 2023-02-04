@@ -105,10 +105,19 @@ export default {
                 this.node.submit()
                 return false
             }
+            
+            if (!this.inModal) {
+                this.$emit("logWork")
+            }
 
             this.submitted = true
-            this.$formkit.reset(this.formId)
-            return this.$formkit.get(this.formId).value
+            return this.node.value
+        },
+        getFormValue() {
+            return this.node.value
+        },
+        resetForm() {
+            this.node.reset()
         },
         makeId() {
             return Math.random().toString(36).slice(2, 7)

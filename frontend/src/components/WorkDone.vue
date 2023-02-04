@@ -10,7 +10,12 @@
             >{{ totalMinutes }} of 540 minutes (standard 8 hour workday)</small
         >
         <li class="list-none" v-if="logs.length > 0">
-            <WorkUnit v-for="log in logs" :key="log._id" :work="log"></WorkUnit>
+            <WorkUnit
+                v-for="log in logs"
+                :key="log._id"
+                :work="log"
+                @reloadLogs="getLogs"
+            ></WorkUnit>
         </li>
     </section>
 </template>

@@ -16,12 +16,13 @@
                 v-if="isBeingHovered"
             >
                 <button
+                    @click="openDeleteWorkUnitDialog"
                     class="py-2 px-4 rounded custom-button-no-fill font-bold"
                 >
                     Delete
                 </button>
                 <button
-                    @click="updateWorkUnitDialog"
+                    @click="openUpdateWorkUnitDialog"
                     class="py-2 px-4 rounded custom-button shadow font-bold"
                 >
                     Edit
@@ -32,7 +33,7 @@
         <!--Update Work Modal-->
         <Teleport to="body">
             <Transition name="modal">
-                <div v-if="open" class="modal-mask">
+                <div v-if="openUpdateModal" class="modal-mask">
                     <div class="modal-wrapper">
                         <div class="modal-container">
                             <div
@@ -55,15 +56,55 @@
                                 <slot name="footer">
                                     <button
                                         class="custom-button-no-fill py-2 px-4 rounded font-bold"
-                                        @click="cancel"
+                                        @click="cancelUpdate"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         class="custom-button py-2 px-4 rounded font-bold"
-                                        @click="update"
+                                        @click="confirmUpdate"
                                     >
                                         Update
+                                    </button>
+                                </slot>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Transition>
+        </Teleport>
+
+        <!--Update Work Modal-->
+        <Teleport to="body">
+            <Transition name="modal">
+                <div v-if="openDeleteModal" class="modal-mask">
+                    <div class="modal-wrapper">
+                        <div class="modal-container">
+                            <div
+                                class="modal-header font-bold uppercase text-gray-600 text-2xl"
+                            >
+                                <slot name="header">Delete Work</slot>
+                            </div>
+
+                            <div class="modal-body">
+                                <slot name="body">
+                                    <p>Are you sure you want to delete <b>{{ work.workedOn }}</b></p>
+                                </slot>
+                            </div>
+
+                            <div class="modal-footer">
+                                <slot name="footer">
+                                    <button
+                                        class="custom-button-no-fill py-2 px-4 rounded font-bold"
+                                        @click="cancelDelete"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        class="custom-button py-2 px-4 rounded font-bold"
+                                        @click="confirmDelete"
+                                    >
+                                        Delete
                                     </button>
                                 </slot>
                             </div>
@@ -77,10 +118,12 @@
 
 <script>
 import LogTimeForm from "@/components/LogTimeForm.vue"
-import { logApi } from "@/api/log.api";
+import { logApi } from "@/api/log.api"
 import * as dayjs from "dayjs"
 import * as utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
+import { createToaster } from "@meforma/vue-toaster"
+const toaster = createToaster()
 
 export default {
     components: { LogTimeForm },
@@ -94,7 +137,8 @@ export default {
     data() {
         return {
             isBeingHovered: false,
-            open: false,
+            openUpdateModal: false,
+            openDeleteModal: false,
             workLog: Object,
         }
     },
@@ -109,22 +153,54 @@ export default {
         },
     },
     methods: {
-        async updateWorkUnitDialog() {
+        async openUpdateWorkUnitDialog() {
             await this.getLog()
         },
-        cancel() {
-            this.open = false
+        async openDeleteWorkUnitDialog() {
+            this.openDeleteModal = true
         },
-        async update() {
-            const result = await this.$refs.logTimeForm.submitHandler()
-            if (result) {
-                this.open = false
+        cancelUpdate() {
+            this.openUpdateModal = false
+        },
+        async confirmUpdate() {
+            try {
+                const formValue = await this.$refs.logTimeForm.submitHandler()
+                const response = await logApi.updateLog({
+                    _id: this.work._id,
+                    ...formValue,
+                })
+                if (response.data) {
+                    this.openUpdateModal = false
+                    toaster.success("Work updated")
+                    this.$emit("reloadLogs")
+                }
+            } catch (error) {
+                toaster.error(error.message)
             }
         },
         async getLog() {
-            this.workLog = (await logApi.getLog(this.work._id)).data
-            this.open = true
+            try {
+                this.workLog = (await logApi.getLog(this.work._id)).data
+                this.openUpdateModal = true
+            } catch (error) {
+                toaster.error(error.message)
+            }
         },
+        cancelDelete() {
+            this.openDeleteModal = false
+        },
+        async confirmDelete() {
+            try {
+                const response = await logApi.deleteLog(this.work._id)
+                if (response.data) {
+                    this.openDeleteModal = false
+                    toaster.success("Work deleted")
+                    this.$emit("reloadLogs")
+                }
+            } catch (error) {
+                toaster.error(error.message)
+            }
+        }
     },
 }
 </script>
