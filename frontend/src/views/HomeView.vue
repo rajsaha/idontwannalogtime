@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 import LogTimeForm from "@/components/LogTimeForm.vue"
 import WorkDone from "@/components/WorkDone.vue"
 import LogCalendar from "@/components/LogCalendar.vue"
