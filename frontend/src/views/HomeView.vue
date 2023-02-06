@@ -42,8 +42,14 @@ export default {
 
 <template>
     <main class="p-4">
-        <nav class="py-4 grid justify-end">
-            <ul class="uppercase font-bold cursor-pointer" @click="logout">
+        <nav class="p-2 flex gap-4 bg-white rounded mb-6 navigation">
+            <ul class="uppercase font-bold cursor-pointer rounded px-4 py-2">
+                Home
+            </ul>
+            <ul class="uppercase font-bold cursor-pointer rounded px-4 py-2">
+                Settings
+            </ul>
+            <ul class="uppercase font-bold cursor-pointer ml-auto rounded px-4 py-2" @click="logout">
                 Logout
             </ul>
         </nav>
@@ -66,5 +72,19 @@ export default {
 .content {
     background-color: white;
     border-radius: 0.5rem;
+}
+
+.navigation ul {
+    border-radius: 5px;
+    border: 1px solid transparent;
+    color: #373D3F;
+}
+
+.navigation ul:hover {
+    border: 1px solid rgba(0, 0, 0, .1);
+}
+
+.navigation ul:active {
+    background-color: rgba(0, 0, 0, .1);
 }
 </style>
