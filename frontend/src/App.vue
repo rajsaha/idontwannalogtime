@@ -1,9 +1,34 @@
 <template>
     <div>
-        <div class="application-sections h-screen gradient">
-            <nav class="p-4 flex">
+        <div class="application-sections h-screen gradient" :class="isAccessTokenNull ? 'logged-out' : 'logged-in'">
+            <div class="p-4 flex app-title">
                 <h1 class="font-bold">idontwannalogtime</h1>
                 <small style="margin-top: 4px">v0.1</small>
+            </div>
+            <nav
+                class="p-2 flex gap-4 bg-white rounded navigation ml-auto mr-auto self-center"
+                v-if="!isAccessTokenNull"
+            >
+                <router-link
+                    class="uppercase font-bold cursor-pointer rounded px-4 py-2"
+                    to="/"
+                    :active-class="'active-navigation-item'"
+                >
+                    Home
+                </router-link>
+                <router-link
+                    class="uppercase font-bold cursor-pointer rounded px-4 py-2"
+                    to="/settings"
+                    :active-class="'active-navigation-item'"
+                >
+                    Settings
+                </router-link>
+                <ul
+                    class="uppercase font-bold cursor-pointer ml-auto rounded px-4 py-2"
+                    @click="logout"
+                >
+                    Logout
+                </ul>
             </nav>
             <div class="pages flex self-center justify-self-center">
                 <RouterView />
@@ -18,31 +43,70 @@
     </div>
 </template>
 
+<script>
+import router from "@/router"
+
+export default {
+    created() {
+        this.isAccessTokenNull = localStorage.getItem("access_token") === ""
+    },
+    methods: {
+        async logout() {
+            localStorage.setItem("access_token", "")
+            await router.go()
+        },
+    },
+    data() {
+        return {
+            isAccessTokenNull: true,
+        }
+    },
+}
+</script>
+
 <style scoped>
 .application-sections {
     display: grid;
-    grid-template-areas:
-        "navigation"
-        "main"
-        "footer";
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-.application-sections nav {
-    grid-area: navigation;
+.logged-out {
+    grid-template-areas:
+        "app-title"
+        "main"
+        "footer";
+}
+
+.logged-in {
+    grid-template-areas:
+        "app-title"
+        "navigation"
+        "main"
+        "footer";
+    grid-template-rows: min-content min-content 1fr min-content;
+}
+
+.application-sections .app-title {
+    grid-area: app-title;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.application-sections nav h1 {
+.application-sections .app-title h1 {
     font-family: "Rancho", cursive;
     font-size: 1.5rem;
 }
 
-.application-sections nav h1 span {
+.application-sections .app-title h1 span {
     font-family: inherit;
+}
+
+.application-sections .navigation {
+    grid-area: navigation;
+    height: min-content;
+    width: min-content;
 }
 
 .application-sections .pages {
@@ -58,5 +122,24 @@
 
 .gradient {
     background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+}
+
+.navigation ul {
+    border-radius: 5px;
+    border: 1px solid transparent;
+    color: #373d3f;
+}
+
+.navigation ul:hover {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.navigation ul:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.active-navigation-item {
+    background-color: #b084cc;
+    color: white;
 }
 </style>

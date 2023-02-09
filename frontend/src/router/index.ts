@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import HomeView from "../views/HomeView.vue"
 import AuthView from "@/views/AuthView.vue"
 import { authApi } from "@/api/auth.api"
+import SettingsView from "@/views/SettingsView.vue"
 
 async function routeGuard(to, from, next) {
     const isSessionHealthy = await authApi.sessionHealth()
@@ -28,6 +29,15 @@ const router = createRouter({
             path: "/",
             name: "home",
             component: HomeView,
+            meta: {
+                authRequired: true,
+            },
+            beforeEnter: routeGuard,
+        },
+        {
+            path: "/settings",
+            name: "settings",
+            component: SettingsView,
             meta: {
                 authRequired: true,
             },

@@ -3,7 +3,7 @@
         <Transition name="slide-fade-future" mode="out-in">
             <h1
                 id="selected-or-current-date"
-                class="font-bold mb-4 text-[#5DD9C1]"
+                class="font-bold mb-4 text-[#B084CC]"
                 :class="{ 'text-3xl': !inModal, 'text-lg': inModal }"
                 :key="formattedDate"
             >
@@ -105,7 +105,7 @@ export default {
                 this.node.submit()
                 return false
             }
-            
+
             if (!this.inModal) {
                 this.$emit("logWork")
             }
