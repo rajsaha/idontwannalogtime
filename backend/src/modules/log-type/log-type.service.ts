@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { LogType } from '../../schemas/log-type.schema';
+import { LOG_TYPE_CREATED_BY, LogType } from '../../schemas/log-type.schema';
 import { Model } from 'mongoose';
 import { CreateLogTypeDto } from './dto/create-log-type.dto';
 import { UpdateLogTypeDto } from './dto/update-log-type.dto';
@@ -13,21 +13,25 @@ export class LogTypeService {
       description: 'Development',
       backgroundColor: '',
       color: '',
+      createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
     },
     {
       description: 'Meeting',
       backgroundColor: '',
       color: '',
+      createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
     },
     {
       description: 'Technical Design',
       backgroundColor: '',
       color: '',
+      createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
     },
     {
       description: 'Testing',
       backgroundColor: '',
       color: '',
+      createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
     },
   ];
   constructor(
@@ -78,8 +82,10 @@ export class LogTypeService {
     return this.logTypeModel.findOne({ id: _id });
   }
 
-  async getLogTypes(): Promise<Dropdown[]> {
-    const logTypes: LogType[] = await this.logTypeModel.find();
+  async getLogTypes(userId: string): Promise<Dropdown[]> {
+    const logTypes: LogType[] = await this.logTypeModel.find({
+      $or: [{ userId: userId }, { createdBy: LOG_TYPE_CREATED_BY.SYSTEM }],
+    });
     return logTypes.map((logType) => {
       return {
         value: logType._id,
