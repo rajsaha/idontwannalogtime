@@ -21,7 +21,7 @@
                     to="/settings"
                     :active-class="'active-navigation-item'"
                 >
-                    Settings
+                    Manage
                 </router-link>
                 <ul
                     class="uppercase font-bold cursor-pointer ml-auto rounded px-4 py-2"

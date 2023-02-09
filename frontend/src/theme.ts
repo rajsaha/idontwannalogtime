@@ -14,7 +14,7 @@ const textClassification = {
     focus-within:border-[#B084CC]
     focus-within:border-2
   `,
-    input: "w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400",
+    input: "w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400 appearance-none",
 }
 const boxClassification = {
     fieldset: "max-w-md border border-gray-400 rounded-md px-2 pb-1",
