@@ -1,10 +1,19 @@
-import { createRouter, createWebHistory } from "vue-router"
+import {
+    createRouter,
+    createWebHistory,
+    type NavigationGuardNext,
+    type RouteLocationNormalized,
+} from "vue-router"
 import HomeView from "../views/HomeView.vue"
 import AuthView from "@/views/AuthView.vue"
 import { authApi } from "@/api/auth.api"
 import SettingsView from "@/views/ManageView.vue"
 
-async function routeGuard(to, from, next) {
+async function routeGuard(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext
+) {
     const isSessionHealthy = await authApi.sessionHealth()
 
     if (isSessionHealthy && !to.meta.authRequired) {
