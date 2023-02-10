@@ -40,7 +40,10 @@ export class LogTypeService {
 
   async create(createLogTypeDto: CreateLogTypeDto): Promise<LogType> {
     try {
-      const createdLogType = new this.logTypeModel(createLogTypeDto);
+      const createdLogType = new this.logTypeModel({
+        ...createLogTypeDto,
+        createdBy: LOG_TYPE_CREATED_BY.USER,
+      });
       await this.logTypeModel.init();
       return createdLogType.save();
     } catch (error) {
