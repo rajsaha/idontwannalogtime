@@ -82,7 +82,7 @@ export class LogTypeService {
   }
 
   async getLogType(_id: string): Promise<LogType> {
-    return this.logTypeModel.findOne({ id: _id });
+    return this.logTypeModel.findById(_id);
   }
 
   async getLogTypes(userId: string): Promise<Dropdown[]> {
