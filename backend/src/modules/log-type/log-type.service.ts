@@ -93,8 +93,13 @@ export class LogTypeService {
       return {
         value: logType._id,
         label: logType.description,
+        createdBy: logType.createdBy,
       };
     });
+  }
+
+  async deleteLogType(_id: string): Promise<LogType> {
+    return this.logTypeModel.findByIdAndDelete(_id);
   }
 
   async seedLogTypes(): Promise<void> {

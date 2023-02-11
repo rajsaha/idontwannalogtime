@@ -26,7 +26,7 @@ const boxClassification = {
 }
 const buttonClassification = {
     wrapper: "mb-1",
-    input: "bg-[#665687] hover:bg-[#331268] transition-[background-color] text-white text-sm font-bold py-3 px-5 rounded",
+    input: "bg-[#665687] hover:bg-[#331268] active:bg-[#190933] transition-[background-color] text-white text-sm font-bold py-3 px-5 rounded",
 }
 
 // export our definitions using our above

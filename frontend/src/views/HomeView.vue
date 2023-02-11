@@ -21,7 +21,7 @@ export default {
                 if (response.data) {
                     toaster.success("Logged work")
                     this.$refs.logTimeForm.resetForm()
-                    this.$refs.workDone.getLogs()
+                    await this.$refs.workDone.getLogs()
                 }
             } catch (error) {
                 toaster.error(error.message)
