@@ -77,7 +77,7 @@ export default {
                     this.goToLogin()
                 }
             } catch (error) {
-                toaster.error(error.message)
+                toaster.error(error.response.data.message)
                 this.$formkit.get(this.formId).reset()
             }
         },

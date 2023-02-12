@@ -23,7 +23,10 @@ export class UserService {
     try {
       const isExistingUser: User = await this.findOne(createUserDto.email);
       if (isExistingUser) {
-        throw new HttpException('User already exists', HttpStatus.FORBIDDEN);
+        throw new HttpException(
+          'This email has already been taken',
+          HttpStatus.FORBIDDEN,
+        );
       }
       createUserDto.password = await this.passwordUtil.hashPassword(
         createUserDto.password,
