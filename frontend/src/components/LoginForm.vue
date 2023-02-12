@@ -84,7 +84,6 @@ export default {
                 }
             } catch (error) {
                 toaster.error("Email/Password Incorrect")
-                this.$formkit.get(this.formId).reset()
             }
         },
         makeId() {

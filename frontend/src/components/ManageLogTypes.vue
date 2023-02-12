@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="font-bold text-2xl uppercase mb-4">Manage Log Types</h1>
+        <h1 class="font-bold text-2xl uppercase mb-4">Manage Custom Log Types</h1>
         <div class="list-of-log-types mb-4" v-if="filteredLogTypes">
             <div
                 class="log-type p-4 rounded mb-2"
@@ -189,12 +189,16 @@ export default {
             return Math.random().toString(36).slice(2, 7)
         },
         async getLogTypes() {
-            this.logTypes = (await logTypeApi.getLogTypes()).data
-            this.filteredLogTypes = []
-            for (const logType of this.logTypes) {
-                if (logType.createdBy === "user") {
-                    this.filteredLogTypes.push(logType)
+            try {
+                this.logTypes = (await logTypeApi.getLogTypes()).data
+                this.filteredLogTypes = []
+                for (const logType of this.logTypes) {
+                    if (logType.createdBy === "user") {
+                        this.filteredLogTypes.push(logType)
+                    }
                 }
+            } catch (error) {
+                toaster.error(error.message)
             }
         },
         async openUpdateLogTypeDialog(_id) {
@@ -254,14 +258,16 @@ export default {
         },
         async addLogType() {
             try {
-                const response = await logTypeApi.createLogType({
-                    description: this.$formkit.get(this.formId).value
-                        .description,
-                })
-                if (response.data) {
-                    toaster.success("Log Type created")
-                    await this.getLogTypes()
-                    this.$formkit.get(this.formId).reset()
+                if (this.$formkit.get(this.formId).value.description) {
+                    const response = await logTypeApi.createLogType({
+                        description: this.$formkit.get(this.formId).value
+                            .description,
+                    })
+                    if (response.data) {
+                        toaster.success("Log Type created")
+                        await this.getLogTypes()
+                        this.$formkit.get(this.formId).reset()
+                    }
                 }
             } catch (error) {
                 toaster.error(error.message)

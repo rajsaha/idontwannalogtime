@@ -62,7 +62,7 @@ export class LogService {
       const regexArray: Array<string> = LOG_TIME_PATTERN.exec(
         updateLogDto.timeSpentInPlainEnglish,
       );
-      return await this.logModel.findByIdAndUpdate(
+      return this.logModel.findByIdAndUpdate(
         updateLogDto._id,
         {
           $set: {
@@ -87,50 +87,64 @@ export class LogService {
   }
 
   async getLogsAtDate(userId: string, date: string): Promise<Log[]> {
-    const currentDate: dayjs.Dayjs = dayjs(date);
-    const nextDate: dayjs.Dayjs = dayjs(currentDate).add(1, 'day');
-    return this.logModel.aggregate([
-      {
-        $lookup: {
-          from: 'logtypes',
-          localField: 'logType',
-          foreignField: '_id',
-          as: 'logTypes',
-        },
-      },
-      {
-        $unwind: {
-          path: '$logTypes',
-        },
-      },
-      {
-        $match: {
-          date: {
-            $gte: currentDate.toDate(),
-            $lt: nextDate.toDate(),
+    try {
+      const currentDate: dayjs.Dayjs = dayjs(date);
+      const nextDate: dayjs.Dayjs = dayjs(currentDate).add(1, 'day');
+      return this.logModel.aggregate([
+        {
+          $lookup: {
+            from: 'logtypes',
+            localField: 'logType',
+            foreignField: '_id',
+            as: 'logTypes',
           },
-          userId: new mongoose.Types.ObjectId(userId),
         },
-      },
-      {
-        $project: {
-          _id: 1,
-          workedOn: 1,
-          timeSpent: 1,
-          timeSpentInPlainEnglish: 1,
-          logType: '$logTypes._id',
-          logTypeDescription: '$logTypes.description',
-          date: 1,
-          userId: 1,
-          createdAt: 1,
-          updatedAt: 1,
+        {
+          $unwind: {
+            path: '$logTypes',
+          },
         },
-      },
-    ]);
+        {
+          $match: {
+            date: {
+              $gte: currentDate.toDate(),
+              $lt: nextDate.toDate(),
+            },
+            userId: new mongoose.Types.ObjectId(userId),
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            workedOn: 1,
+            timeSpent: 1,
+            timeSpentInPlainEnglish: 1,
+            logType: '$logTypes._id',
+            logTypeDescription: '$logTypes.description',
+            date: 1,
+            userId: 1,
+            createdAt: 1,
+            updatedAt: 1,
+          },
+        },
+      ]);
+    } catch (error) {
+      Logger.error(error, 'Get Logs At Date');
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: new Error(error.message),
+      });
+    }
   }
 
   async deleteLog(_id: string): Promise<Log> {
-    return this.logModel.findByIdAndDelete(_id);
+    try {
+      return this.logModel.findByIdAndDelete(_id);
+    } catch (error) {
+      Logger.error(error, 'Delete Log');
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: new Error(error.message),
+      });
+    }
   }
 
   async getTimeSpentForDate(

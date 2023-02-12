@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { PasswordUtil } from '../../util/password.util';
 import { User } from '../../schemas/user.schema';
@@ -29,6 +29,9 @@ export class AuthService {
       return null;
     } catch (error) {
       Logger.error(error, 'Validate User');
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: new Error(error.message),
+      });
     }
   }
 
@@ -45,6 +48,9 @@ export class AuthService {
       };
     } catch (error) {
       Logger.error(error, 'Login');
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: new Error(error.message),
+      });
     }
   }
 }

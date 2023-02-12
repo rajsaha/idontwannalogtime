@@ -13,7 +13,7 @@
             <FormKit
                 type="password"
                 label="Current Password"
-                name="currentPassword"
+                name="password"
                 validation="required"
                 :validation-messages="{
                     required: 'Required',
@@ -28,12 +28,26 @@
                     required: 'Required',
                 }"
             />
+            <FormKit
+                type="password"
+                label="Confirm New Password"
+                name="newPassword_confirm"
+                validation="required|confirm"
+                :validation-messages="{
+                    required: 'Required',
+                }"
+                validation-label="Confirmation"
+            />
             <FormKit type="submit" label="Change Password" />
         </FormKit>
     </div>
 </template>
 
 <script>
+import { userApi } from "@/api/user.api"
+import { createToaster } from "@meforma/vue-toaster"
+const toaster = createToaster()
+
 export default {
     created() {
         this.formId = this.makeId()
@@ -50,12 +64,27 @@ export default {
     },
     methods: {
         async submitHandler() {
-            if (!this.node.context.state.valid) {
-                this.node.submit()
-                return false
-            }
+            try {
+                if (!this.node.context.state.valid) {
+                    this.node.submit()
+                    return false
+                }
 
-            return this.node.value
+                const data = {
+                    password: this.node.value.password,
+                    newPassword: this.node.value.newPassword,
+                    confirmNewPassword: this.node.value.newPassword_confirm,
+                }
+
+                const response = await userApi.updatePassword(data)
+
+                if (response.data) {
+                    toaster.success("Password changed")
+                    this.$formkit.get(this.formId).reset()
+                }
+            } catch (error) {
+                toaster.error(error.response.data.message)
+            }
         },
         getFormValue() {
             return this.node.value

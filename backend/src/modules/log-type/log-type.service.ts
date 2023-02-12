@@ -64,7 +64,7 @@ export class LogTypeService {
           HttpStatus.NOT_FOUND,
         );
       }
-      return await this.logTypeModel.findByIdAndUpdate(updateLogTypeDto._id, {
+      return this.logTypeModel.findByIdAndUpdate(updateLogTypeDto._id, {
         $set: {
           description: updateLogTypeDto.description,
           backgroundColor: updateLogTypeDto.backgroundColor,
@@ -80,29 +80,50 @@ export class LogTypeService {
   }
 
   async getLogType(_id: string): Promise<LogType> {
-    return this.logTypeModel.findById(_id);
+    try {
+      return this.logTypeModel.findById(_id);
+    } catch (error) {
+      Logger.error(error.message, 'Get Log Type');
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: new Error(error.message),
+      });
+    }
   }
 
   async getLogTypes(userId: string): Promise<Dropdown[]> {
-    const logTypes: LogType[] = await this.logTypeModel.find({
-      $or: [{ userId: userId }, { createdBy: LOG_TYPE_CREATED_BY.SYSTEM }],
-      $and: [{ isDeleted: false }],
-    });
-    return logTypes.map((logType) => {
-      return {
-        value: logType._id,
-        label: logType.description,
-        createdBy: logType.createdBy,
-      };
-    });
+    try {
+      const logTypes: LogType[] = await this.logTypeModel.find({
+        $or: [{ userId: userId }, { createdBy: LOG_TYPE_CREATED_BY.SYSTEM }],
+        $and: [{ isDeleted: false }],
+      });
+      return logTypes.map((logType) => {
+        return {
+          value: logType._id,
+          label: logType.description,
+          createdBy: logType.createdBy,
+        };
+      });
+    } catch (error) {
+      Logger.error(error.message, 'Get Log Types');
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: new Error(error.message),
+      });
+    }
   }
 
   async deleteLogType(_id: string): Promise<LogType> {
-    return this.logTypeModel.findByIdAndUpdate(_id, {
-      $set: {
-        isDeleted: true,
-      },
-    });
+    try {
+      return this.logTypeModel.findByIdAndUpdate(_id, {
+        $set: {
+          isDeleted: true,
+        },
+      });
+    } catch (error) {
+      Logger.error(error.message, 'Delete Log Type');
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: new Error(error.message),
+      });
+    }
   }
 
   async seedLogTypes(): Promise<void> {
