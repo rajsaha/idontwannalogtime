@@ -24,10 +24,13 @@
                 </div>
             </div>
         </div>
-        <div v-else class="p-4 grid place-content-center bg-emerald-50 rounded border-b-gray-300 text-neutral-500 text-sm">
+        <div
+            v-else
+            class="p-4 grid place-content-center bg-emerald-50 rounded border-b-gray-300 text-neutral-500 text-sm"
+        >
             Create your own log type below
         </div>
-        <div class="divider mb-4 bg-gray-50 rounded"></div>
+        <div class="divider mt-4 mb-4 bg-gray-100 rounded"></div>
         <FormKit
             type="form"
             :id="formId"
@@ -41,7 +44,7 @@
                 <FormKit
                     type="text"
                     placeholder="Add Log Type"
-                    name="logType"
+                    name="description"
                 />
                 <button
                     class="bg-[#665687] hover:bg-[#331268] active:bg-[#190933] transition-[background-color] text-white text-sm font-bold py-2 px-4 rounded"
@@ -54,10 +57,7 @@
         <!--Update Log Type-->
         <Teleport to="body">
             <Transition name="modal">
-                <div
-                    v-if="openUpdateModal"
-                    class="modal-mask"
-                >
+                <div v-if="openUpdateModal" class="modal-mask">
                     <div class="modal-wrapper">
                         <div class="modal-container">
                             <div
@@ -176,7 +176,7 @@ export default {
                 return false
             }
 
-            return this.node.value
+            await this.addLogType()
         },
         getFormValue() {
             return this.node.value
@@ -234,11 +234,30 @@ export default {
         },
         async confirmUpdate(_id) {
             try {
-                const response = await logTypeApi.deleteLogType(_id)
+                const response = await logTypeApi.updateLogType({
+                    _id: this.logType._id,
+                    description: this.$formkit.get(this.formId).value
+                        .description,
+                })
                 if (response.data) {
                     this.openDeleteModal = false
                     toaster.success("Log Type updated")
                     this.$emit("reloadLogTypes")
+                }
+            } catch (error) {
+                toaster.error(error.message)
+            }
+        },
+        async addLogType() {
+            try {
+                const response = await logTypeApi.createLogType({
+                    description: this.$formkit.get(this.formId).value
+                        .description,
+                })
+                if (response.data) {
+                    toaster.success("Log Type created")
+                    await this.getLogTypes()
+                    this.$formkit.get(this.formId).reset()
                 }
             } catch (error) {
                 toaster.error(error.message)

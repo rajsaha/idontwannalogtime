@@ -14,24 +14,28 @@ export class LogTypeService {
       backgroundColor: '',
       color: '',
       createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
+      isDeleted: false,
     },
     {
       description: 'Meeting',
       backgroundColor: '',
       color: '',
       createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
+      isDeleted: false,
     },
     {
       description: 'Technical Design',
       backgroundColor: '',
       color: '',
       createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
+      isDeleted: false,
     },
     {
       description: 'Testing',
       backgroundColor: '',
       color: '',
       createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
+      isDeleted: false,
     },
   ];
   constructor(
@@ -99,7 +103,14 @@ export class LogTypeService {
   }
 
   async deleteLogType(_id: string): Promise<LogType> {
-    return this.logTypeModel.findByIdAndDelete(_id);
+    return this.logTypeModel.findByIdAndUpdate(
+      { id: _id },
+      {
+        $set: {
+          isDeleted: true,
+        },
+      },
+    );
   }
 
   async seedLogTypes(): Promise<void> {

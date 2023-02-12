@@ -1,10 +1,10 @@
 <template>
     <div class="grid">
         <div class="p-4 content shadow-2xl mb-4">
-            <ChangePasswordForm></ChangePasswordForm>
+            <ManageLogTypes></ManageLogTypes>
         </div>
         <div class="p-4 content shadow-2xl">
-            <ManageLogTypes></ManageLogTypes>
+            <ChangePasswordForm></ChangePasswordForm>
         </div>
     </div>
 </template>

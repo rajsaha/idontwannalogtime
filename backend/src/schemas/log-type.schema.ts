@@ -21,6 +21,9 @@ export class LogType {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false })
   userId?: User;
 
+  @Prop({ required: false, default: false })
+  isDeleted?: boolean;
+
   @Prop()
   backgroundColor?: string;
 

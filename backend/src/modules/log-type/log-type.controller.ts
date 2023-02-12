@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Patch,
+  Post,
   Request,
   UseGuards,
   UsePipes,
@@ -18,6 +19,10 @@ import {
   UpdateLogTypeSchema,
 } from './dto/update-log-type.dto';
 import { JoiValidationPipe } from '../../util/joi-validation.pipe';
+import {
+  CreateLogTypeDto,
+  CreateLogTypeSchema,
+} from './dto/create-log-type.dto';
 
 @Controller('log-type')
 @UseGuards(JwtAuthGuard)
@@ -36,6 +41,12 @@ export class LogTypeController {
   @Delete(':id')
   delete(@Param() params): Promise<LogType> {
     return this.logTypeService.deleteLogType(params.id);
+  }
+
+  @UsePipes(new JoiValidationPipe(CreateLogTypeSchema))
+  @Post()
+  create(@Body() createLogTypeDto: CreateLogTypeDto): Promise<LogType> {
+    return this.logTypeService.create(createLogTypeDto);
   }
 
   @UsePipes(new JoiValidationPipe(UpdateLogTypeSchema))

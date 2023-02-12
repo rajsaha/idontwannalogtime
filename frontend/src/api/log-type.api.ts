@@ -11,6 +11,9 @@ export const logTypeApi = {
     async deleteLogType(_id: string): Promise<AxiosResponse> {
         return axios.delete(`/log-type/${_id}`, AxiosConfigConstant)
     },
+    async createLogType(data: { description: string }): Promise<AxiosResponse> {
+        return axios.post(`/log-type`, { ...data }, AxiosConfigConstant)
+    },
     async updateLogType(data: {
         _id: string
         description: string
