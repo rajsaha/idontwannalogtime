@@ -45,8 +45,11 @@ export class LogTypeController {
 
   @UsePipes(new JoiValidationPipe(CreateLogTypeSchema))
   @Post()
-  create(@Body() createLogTypeDto: CreateLogTypeDto): Promise<LogType> {
-    return this.logTypeService.create(createLogTypeDto);
+  create(
+    @Request() req,
+    @Body() createLogTypeDto: CreateLogTypeDto,
+  ): Promise<LogType> {
+    return this.logTypeService.create(req.user.userId, createLogTypeDto);
   }
 
   @UsePipes(new JoiValidationPipe(UpdateLogTypeSchema))

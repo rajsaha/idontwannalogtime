@@ -30,23 +30,20 @@ export class LogTypeService {
       createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
       isDeleted: false,
     },
-    {
-      description: 'Testing',
-      backgroundColor: '',
-      color: '',
-      createdBy: LOG_TYPE_CREATED_BY.SYSTEM,
-      isDeleted: false,
-    },
   ];
   constructor(
     @InjectModel(LogType.name) private logTypeModel: Model<LogType>,
   ) {}
 
-  async create(createLogTypeDto: CreateLogTypeDto): Promise<LogType> {
+  async create(
+    userId: string,
+    createLogTypeDto: CreateLogTypeDto,
+  ): Promise<LogType> {
     try {
       const createdLogType = new this.logTypeModel({
         ...createLogTypeDto,
         createdBy: LOG_TYPE_CREATED_BY.USER,
+        userId: userId,
       });
       await this.logTypeModel.init();
       return createdLogType.save();
@@ -67,16 +64,13 @@ export class LogTypeService {
           HttpStatus.NOT_FOUND,
         );
       }
-      return await this.logTypeModel.findByIdAndUpdate(
-        { id: updateLogTypeDto._id },
-        {
-          $set: {
-            description: updateLogTypeDto.description,
-            backgroundColor: updateLogTypeDto.backgroundColor,
-            color: updateLogTypeDto.color,
-          },
+      return await this.logTypeModel.findByIdAndUpdate(updateLogTypeDto._id, {
+        $set: {
+          description: updateLogTypeDto.description,
+          backgroundColor: updateLogTypeDto.backgroundColor,
+          color: updateLogTypeDto.color,
         },
-      );
+      });
     } catch (error) {
       Logger.error(error.message, 'Update Log Type');
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR, {
@@ -92,6 +86,7 @@ export class LogTypeService {
   async getLogTypes(userId: string): Promise<Dropdown[]> {
     const logTypes: LogType[] = await this.logTypeModel.find({
       $or: [{ userId: userId }, { createdBy: LOG_TYPE_CREATED_BY.SYSTEM }],
+      $and: [{ isDeleted: false }],
     });
     return logTypes.map((logType) => {
       return {
@@ -103,14 +98,11 @@ export class LogTypeService {
   }
 
   async deleteLogType(_id: string): Promise<LogType> {
-    return this.logTypeModel.findByIdAndUpdate(
-      { id: _id },
-      {
-        $set: {
-          isDeleted: true,
-        },
+    return this.logTypeModel.findByIdAndUpdate(_id, {
+      $set: {
+        isDeleted: true,
       },
-    );
+    });
   }
 
   async seedLogTypes(): Promise<void> {

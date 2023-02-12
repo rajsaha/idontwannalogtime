@@ -11,7 +11,7 @@
         <FormKit
             type="text"
             placeholder="Update Log Type"
-            name="logType"
+            name="description"
             validation="required"
             :validation-messages="{
                 required: 'Required',
@@ -29,7 +29,7 @@ export default {
         this.node = this.$formkit.get(this.formId)
         if (this.logType) {
             this.node.input({
-                logType: this.logType.description,
+                description: this.logType.description,
             })
         }
     },

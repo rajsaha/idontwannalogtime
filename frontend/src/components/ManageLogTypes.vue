@@ -1,10 +1,10 @@
 <template>
     <div>
         <h1 class="font-bold text-2xl uppercase mb-4">Manage Log Types</h1>
-        <div class="list-of-log-types mb-4" v-if="!noUserLogTypesFound">
+        <div class="list-of-log-types mb-4" v-if="filteredLogTypes">
             <div
                 class="log-type p-4 rounded mb-2"
-                v-for="logType in logTypes"
+                v-for="logType in filteredLogTypes"
                 :key="logType.value"
             >
                 <div class="grid grid-cols-3">
@@ -79,13 +79,13 @@
                                 <slot name="footer">
                                     <button
                                         class="custom-button-no-fill py-2 px-4 rounded font-bold"
-                                        @click="cancelUpdate(logType.value)"
+                                        @click="cancelUpdate"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         class="custom-button py-2 px-4 rounded font-bold"
-                                        @click="confirmUpdate(logType.value)"
+                                        @click="confirmUpdate"
                                     >
                                         Update
                                     </button>
@@ -163,6 +163,7 @@ export default {
             node: undefined,
             formId: null,
             logTypes: [],
+            filteredLogTypes: [],
             logType: Object,
             openUpdateModal: false,
             openDeleteModal: false,
@@ -189,9 +190,10 @@ export default {
         },
         async getLogTypes() {
             this.logTypes = (await logTypeApi.getLogTypes()).data
+            this.filteredLogTypes = []
             for (const logType of this.logTypes) {
                 if (logType.createdBy === "user") {
-                    this.noUserLogTypesFound = false
+                    this.filteredLogTypes.push(logType)
                 }
             }
         },
@@ -217,13 +219,15 @@ export default {
         cancelDelete() {
             this.openDeleteModal = false
         },
-        async confirmDelete(_id) {
+        async confirmDelete() {
             try {
-                const response = await logTypeApi.deleteLogType(_id)
+                const response = await logTypeApi.deleteLogType(
+                    this.logType._id
+                )
                 if (response.data) {
                     this.openDeleteModal = false
                     toaster.success("Log Type deleted")
-                    this.$emit("reloadLogTypes")
+                    await this.getLogTypes()
                 }
             } catch (error) {
                 toaster.error(error.message)
@@ -232,17 +236,17 @@ export default {
         cancelUpdate() {
             this.openUpdateModal = false
         },
-        async confirmUpdate(_id) {
+        async confirmUpdate() {
             try {
+                const formValue = this.$refs.updateLogTypeForm.getFormValue()
                 const response = await logTypeApi.updateLogType({
                     _id: this.logType._id,
-                    description: this.$formkit.get(this.formId).value
-                        .description,
+                    description: formValue.description,
                 })
                 if (response.data) {
-                    this.openDeleteModal = false
+                    this.openUpdateModal = false
                     toaster.success("Log Type updated")
-                    this.$emit("reloadLogTypes")
+                    await this.getLogTypes()
                 }
             } catch (error) {
                 toaster.error(error.message)
