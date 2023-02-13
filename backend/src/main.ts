@@ -14,6 +14,6 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-  await app.listen(3001);
+  await app.listen(process.env.PORT || 3001);
 }
 bootstrap();
