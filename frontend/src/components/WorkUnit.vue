@@ -88,7 +88,10 @@
 
                             <div class="modal-body">
                                 <slot name="body">
-                                    <p>Are you sure you want to delete <b>{{ work.workedOn }}?</b></p>
+                                    <p>
+                                        Are you sure you want to delete
+                                        <b>{{ work.workedOn }}?</b>
+                                    </p>
                                 </slot>
                             </div>
 
@@ -119,8 +122,8 @@
 <script>
 import LogTimeForm from "@/components/LogTimeForm.vue"
 import { logApi } from "@/api/log.api"
-import * as dayjs from "dayjs"
-import * as utc from "dayjs/plugin/utc"
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
 import { createToaster } from "@meforma/vue-toaster"
 const toaster = createToaster()
@@ -200,7 +203,7 @@ export default {
             } catch (error) {
                 toaster.error(error.message)
             }
-        }
+        },
     },
 }
 </script>
