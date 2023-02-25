@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div class="application-sections h-screen gradient" :class="isAccessTokenNull ? 'logged-out' : 'logged-in'">
+        <div class="application-sections h-screen gradient" :class="isLoggedIn ? 'logged-in' : 'logged-out'">
             <div class="p-4 flex app-title">
                 <h1 class="font-bold">idontwannalogtime</h1>
                 <small style="margin-top: 4px">v0.1</small>
             </div>
             <nav
                 class="p-2 flex gap-4 bg-white rounded navigation ml-auto mr-auto self-center"
-                v-if="!isAccessTokenNull"
+                v-if="isLoggedIn"
             >
                 <router-link
                     class="uppercase font-bold cursor-pointer rounded px-4 py-2"
@@ -48,17 +48,18 @@ import router from "@/router"
 
 export default {
     created() {
-        this.isAccessTokenNull = localStorage.getItem("access_token") === ""
+        this.isLoggedIn = localStorage.getItem("access_token")
     },
     methods: {
         async logout() {
             localStorage.setItem("access_token", "")
+            this.isLoggedIn = false
             await router.go()
         },
     },
     data() {
         return {
-            isAccessTokenNull: true,
+            isLoggedIn: true,
         }
     },
 }
