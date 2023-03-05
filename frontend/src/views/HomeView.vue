@@ -2,7 +2,6 @@
 import LogTimeForm from "@/components/LogTimeForm.vue"
 import WorkDone from "@/components/WorkDone.vue"
 import LogCalendar from "@/components/LogCalendar.vue"
-import router from "@/router"
 import { createToaster } from "@meforma/vue-toaster"
 import { logApi } from "@/api/log.api"
 import { useCounterStore } from "@/stores/state"
@@ -40,7 +39,7 @@ export default {
     <main class="p-4">
         <section class="grid home-grid gap-x-6">
             <div class="md:justify-self-end"><LogCalendar /></div>
-            <div class="p-4 content shadow-2xl">
+            <div class="p-4 content shadow-2xl min-w-full">
                 <LogTimeForm ref="logTimeForm" @logWork="logWork" />
                 <WorkDone ref="workDone" />
             </div>
@@ -50,12 +49,17 @@ export default {
 
 <style scoped>
 .home-grid {
-    grid-template-columns: min-content minmax(400px, max-content);
     justify-content: center;
 }
 
 .content {
     background-color: white;
     border-radius: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .home-grid {
+        grid-template-columns: min-content minmax(300px, max-content);
+    }
 }
 </style>

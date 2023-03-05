@@ -1,5 +1,15 @@
 <template>
-    <DatePicker v-model="store.date" color="teal" @dayclick="updateDate" />
+    <DatePicker v-model="store.date" color="teal" @dayclick="updateDate" v-if="width > 768"/>
+    <DatePicker v-model="store.date" color="teal" @dayclick="updateDate" v-if="width < 768" :masks="masks">
+        <template v-slot="{ inputValue, inputEvents }">
+            <h1 class="font-bold mb-2">Select a date</h1>
+            <input
+                class="bg-white border px-2 py-1 rounded w-full mb-4"
+                :value="inputValue"
+                v-on="inputEvents"
+            />
+        </template>
+    </DatePicker>
 </template>
 
 <script>
@@ -10,9 +20,16 @@ export default {
     components: {
         DatePicker,
     },
+    mounted() {
+        window.addEventListener("resize", this.getWindowWidth)
+    },
     data() {
         return {
             date: new Date(),
+            width: 0,
+            masks: {
+                input: "DD-MM-YYYY",
+            },
         }
     },
     setup() {
@@ -28,6 +45,9 @@ export default {
                 )
             )
         },
+        getWindowWidth() {
+            this.width = window.innerWidth
+        }
     },
 }
 </script>

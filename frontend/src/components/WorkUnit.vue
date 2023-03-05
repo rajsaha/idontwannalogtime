@@ -37,7 +37,7 @@
                     <div class="modal-wrapper">
                         <div class="modal-container">
                             <div
-                                class="modal-header font-bold uppercase text-gray-600 text-2xl"
+                                class="modal-header font-bold text-gray-600 text-2xl"
                             >
                                 <slot name="header">Update Work</slot>
                             </div>
@@ -81,7 +81,7 @@
                     <div class="modal-wrapper">
                         <div class="modal-container">
                             <div
-                                class="modal-header font-bold uppercase text-gray-600 text-2xl"
+                                class="modal-header font-bold text-gray-600 text-2xl"
                             >
                                 <slot name="header">Delete Work</slot>
                             </div>

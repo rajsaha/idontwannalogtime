@@ -1,7 +1,7 @@
 <template>
     <main class="p-4">
         <section class="grid what-is gap-x-6">
-            <div class="md:justify-self-end">
+            <div class="md:justify-self-end order-2 md:order-1">
                 <h1 class="font-bold">
                     What is this?
                     <span class="font-black" style="color: #b084cc"
@@ -27,7 +27,7 @@
                 <br />
                 <p>More to come soon! 🚧</p>
             </div>
-            <div class="p-4 content shadow-2xl">
+            <div class="p-4 content shadow-2xl order-1 md:order-2">
                 <LoginForm @goToSignup="goToSignup" v-if="isLogin"></LoginForm>
                 <SignupForm @goToLogin="goToLogin" v-if="!isLogin"></SignupForm>
             </div>
@@ -59,12 +59,19 @@ export default {
 
 <style scoped>
 .what-is {
-    grid-template-columns: 300px max-content;
     justify-content: center;
+    grid-row-gap: 2rem;
 }
 
 .content {
     background-color: white;
     border-radius: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .what-is {
+        grid-template-columns: 300px max-content;
+        grid-row-gap: inherit;
+    }
 }
 </style>

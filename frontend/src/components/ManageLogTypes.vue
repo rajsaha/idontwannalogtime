@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="font-bold text-2xl uppercase mb-4">Manage Custom Log Types</h1>
+        <h1 class="font-bold text-2xl mb-4">Manage Custom Log Types</h1>
         <div class="list-of-log-types mb-4" v-if="filteredLogTypes">
             <div
                 class="log-type p-4 rounded mb-2"
@@ -61,7 +61,7 @@
                     <div class="modal-wrapper">
                         <div class="modal-container">
                             <div
-                                class="modal-header font-bold uppercase text-gray-600 text-2xl"
+                                class="modal-header font-bold text-gray-600 text-2xl"
                             >
                                 <slot name="header">Update Log Type</slot>
                             </div>
@@ -104,7 +104,7 @@
                     <div class="modal-wrapper">
                         <div class="modal-container">
                             <div
-                                class="modal-header font-bold uppercase text-gray-600 text-2xl"
+                                class="modal-header font-bold text-gray-600 text-2xl"
                             >
                                 <slot name="header">Delete Log Type</slot>
                             </div>

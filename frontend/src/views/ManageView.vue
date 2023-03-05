@@ -20,7 +20,6 @@ export default {
 
 <style scoped>
 .content {
-    min-width: 400px;
     background-color: white;
     border-radius: 0.5rem;
 }

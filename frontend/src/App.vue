@@ -6,7 +6,7 @@
                 <small style="margin-top: 4px">v0.1</small>
             </div>
             <nav
-                class="p-2 flex gap-4 bg-white rounded navigation ml-auto mr-auto self-center"
+                class="p-2 flex gap-4 bg-white rounded navigation ml-auto mr-auto self-center mb-8"
                 v-if="isLoggedIn"
             >
                 <router-link

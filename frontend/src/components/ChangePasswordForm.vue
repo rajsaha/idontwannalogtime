@@ -1,12 +1,11 @@
 <template>
     <div>
-        <h1 class="font-bold text-2xl uppercase mb-4">Change Password</h1>
+        <h1 class="font-bold text-2xl mb-4">Change Password</h1>
         <FormKit
             type="form"
             :id="formId"
             :form-class="submitted ? 'hide' : 'show'"
             submit-label="Log"
-            @submit="submitHandler"
             :actions="false"
             incomplete-message=""
         >
@@ -38,8 +37,13 @@
                 }"
                 validation-label="Confirmation"
             />
-            <FormKit type="submit" label="Change Password" />
         </FormKit>
+        <button
+            class="bg-[#665687] hover:bg-[#331268] active:bg-[#190933] transition-[background-color] text-white text-sm font-bold py-2 px-4 rounded w-full"
+            @click="submitHandler"
+        >
+            Change Password
+        </button>
     </div>
 </template>
 
