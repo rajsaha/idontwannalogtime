@@ -22,6 +22,7 @@ export default {
     },
     mounted() {
         window.addEventListener("resize", this.getWindowWidth)
+        this.getWindowWidth()
     },
     data() {
         return {
