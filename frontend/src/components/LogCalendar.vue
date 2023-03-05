@@ -5,6 +5,7 @@
 <script>
 import { DatePicker } from "v-calendar"
 import { useCounterStore } from "@/stores/state"
+import dayjs from "dayjs"
 export default {
     components: {
         DatePicker,
@@ -21,7 +22,9 @@ export default {
     },
     methods: {
         updateDate(day) {
-            this.store.setDate(day.date)
+            this.store.setDate(
+                dayjs(`${day.year}-${day.month}-${day.day}`).toDate()
+            )
         },
     },
 }

@@ -150,8 +150,8 @@ export default {
             return `${this.work.timeSpentInPlainEnglish} on ${this.work.workedOn}`
         },
         getFormattedDate() {
-            return dayjs(new Date(this.work.updatedAt)).format(
-                "YYYY-MM-DD HH:mm:ss"
+            return dayjs(this.work.updatedAt).utc().format(
+                "YYYY-MM-DD"
             )
         },
     },
