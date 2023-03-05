@@ -41,7 +41,7 @@ export class LogService {
         timeSpent: timeSpent,
         logType: createLogDto.logType,
         userId: userId,
-        date: createLogDto.date,
+        date: dayjs(createLogDto.date).format('YYYY-MM-DD'),
       });
       await this.logModel.init();
       return createdLog.save();
