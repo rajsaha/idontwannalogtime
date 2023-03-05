@@ -23,7 +23,9 @@ export default {
     methods: {
         updateDate(day) {
             this.store.setDate(
-                dayjs(`${day.year}-${day.month}-${day.day}`).toDate()
+                dayjs(`${day.year}-${day.month}-${day.day}`).format(
+                    "YYYY-MM-DD"
+                )
             )
         },
     },
