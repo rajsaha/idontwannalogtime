@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div class="application-sections h-screen gradient" :class="isLoggedIn ? 'logged-in' : 'logged-out'">
+        <div
+            class="application-sections h-screen gradient"
+            :class="isLoggedIn ? 'logged-in' : 'logged-out'"
+        >
             <div class="p-4 flex app-title">
                 <h1 class="font-bold">idontwannalogtime</h1>
                 <small style="margin-top: 4px">v0.1</small>
@@ -10,14 +13,14 @@
                 v-if="isLoggedIn"
             >
                 <router-link
-                    class="uppercase font-bold cursor-pointer rounded px-4 py-2"
+                    class="uppercase font-bold cursor-pointer rounded px-4 py-2 hover:bg-[#331268] hover:text-[#fff]"
                     to="/"
                     :active-class="'active-navigation-item'"
                 >
                     Home
                 </router-link>
                 <router-link
-                    class="uppercase font-bold cursor-pointer rounded px-4 py-2"
+                    class="uppercase font-bold cursor-pointer rounded px-4 py-2 hover:bg-[#331268] hover:text-[#fff]"
                     to="/settings"
                     :active-class="'active-navigation-item'"
                 >
@@ -140,7 +143,12 @@ export default {
 }
 
 .active-navigation-item {
+    border: 1px solid transparent;
     background-color: #b084cc;
     color: white;
+}
+
+.active-navigation-item:hover {
+    background-color: #a255d2;
 }
 </style>

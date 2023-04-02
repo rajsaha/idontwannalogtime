@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h1 class="font-bold text-3xl mb-4">Work Log</h1>
+        <h1 class="font-bold mb-4">Work Log</h1>
         <div class="progress-bar-container mb-2">
             <progress class="w-full" v-bind:value="percentageDone" max="100">
                 {{ percentageDone }}
@@ -87,7 +87,7 @@ progress::-moz-progress-bar {
     background: #acfcd9;
 }
 progress::-webkit-progress-value {
-    background: #5DD9C1;
+    background: #5dd9c1;
 }
 progress {
     color: #acfcd9;

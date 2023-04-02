@@ -90,3 +90,7 @@
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
 }
+
+.vc-arrow {
+    z-index: 9999;
+}

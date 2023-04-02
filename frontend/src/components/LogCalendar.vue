@@ -1,6 +1,17 @@
 <template>
-    <DatePicker v-model="store.date" color="teal" @dayclick="updateDate" v-if="width > 768"/>
-    <DatePicker v-model="store.date" color="teal" @dayclick="updateDate" v-if="width < 768" :masks="masks">
+    <DatePicker
+        v-model="store.date"
+        color="teal"
+        @dayclick="updateDate"
+        v-if="width > 768"
+    />
+    <DatePicker
+        v-model="store.date"
+        color="teal"
+        @dayclick="updateDate"
+        v-if="width < 768"
+        :masks="masks"
+    >
         <template v-slot="{ inputValue, inputEvents }">
             <h1 class="font-bold mb-2">Select a date</h1>
             <input
@@ -48,7 +59,7 @@ export default {
         },
         getWindowWidth() {
             this.width = window.innerWidth
-        }
+        },
     },
 }
 </script>

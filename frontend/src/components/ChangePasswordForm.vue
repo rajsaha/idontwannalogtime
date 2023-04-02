@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1 class="font-bold text-2xl mb-4">Change Password</h1>
         <FormKit
             type="form"
             :id="formId"

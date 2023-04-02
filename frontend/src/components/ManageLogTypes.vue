@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1 class="font-bold text-2xl mb-4">Manage Custom Log Types</h1>
         <div class="list-of-log-types mb-4" v-if="filteredLogTypes">
             <div
                 class="log-type p-4 rounded mb-2"
@@ -8,19 +7,17 @@
                 :key="logType.value"
             >
                 <div class="grid grid-cols-3">
-                    <span class="font-bold">{{ logType.label }}</span>
-                    <button
-                        class="text-[#f67280] hover:text-[#cb4654] active:text-[#9d3943] text-white text-sm font-bold py-2 px-4 rounded"
+                    <span>{{ logType.label }}</span>
+                    <font-awesome-icon
+                        icon="fa-regular fa-trash-can"
+                        class="hover:text-red-300 text-red-500 cursor-pointer"
                         @click="openDeleteLogTypeDialog(logType.value)"
-                    >
-                        Delete
-                    </button>
-                    <button
-                        class="bg-[#665687] hover:bg-[#331268] active:bg-[#190933] transition-[background-color] text-white text-sm font-bold py-2 px-4 rounded"
+                    />
+                    <font-awesome-icon
+                        class="cursor-pointer hover:text-gray-300"
+                        icon="fa-regular fa-pen-to-square"
                         @click="openUpdateLogTypeDialog(logType.value)"
-                    >
-                        Edit
-                    </button>
+                    />
                 </div>
             </div>
         </div>
@@ -30,7 +27,6 @@
         >
             Create your own log type below
         </div>
-        <div class="divider mt-4 mb-4 bg-gray-100 rounded"></div>
         <FormKit
             type="form"
             :id="formId"
@@ -146,10 +142,11 @@
 import { logTypeApi } from "@/api/log-type.api"
 import { createToaster } from "@meforma/vue-toaster"
 import UpdateLogTypeForm from "@/components/UpdateLogTypeForm.vue"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 const toaster = createToaster()
 
 export default {
-    components: { UpdateLogTypeForm },
+    components: { FontAwesomeIcon, UpdateLogTypeForm },
     created() {
         this.formId = this.makeId()
     },
@@ -278,13 +275,13 @@ export default {
 </script>
 
 <style scoped>
-.log-type {
-    border: 2px solid #eeeeee;
+.log-type:not(:last-of-type) {
+    border-bottom: 1px solid #eeeeee;
 }
 
 .log-type > div {
     grid-template-columns: 1fr min-content min-content;
-    grid-gap: 1rem;
+    grid-gap: 2rem;
 }
 
 .log-type > div > span {
