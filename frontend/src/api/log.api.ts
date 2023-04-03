@@ -13,19 +13,21 @@ export const logApi = {
         timeSpentInPlainEnglish: string
         logType: string
         date: string
+        note?: string
     }): Promise<AxiosResponse> {
         return axios.post(`/log`, { ...data }, AxiosConfigConstant)
     },
     async updateLog(data: {
-        _id: string,
+        _id: string
         workedOn: string
         timeSpentInPlainEnglish: string
         logType: string
         date: string
+        note?: string
     }): Promise<AxiosResponse> {
         return axios.patch(`/log`, { ...data }, AxiosConfigConstant)
     },
     async deleteLog(_id: string): Promise<AxiosResponse> {
         return axios.delete(`/log/${_id}`, AxiosConfigConstant)
-    }
+    },
 }

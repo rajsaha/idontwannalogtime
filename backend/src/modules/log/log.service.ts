@@ -42,6 +42,7 @@ export class LogService {
         logType: createLogDto.logType,
         userId: userId,
         date: dayjs(createLogDto.date).format('YYYY-MM-DD'),
+        note: createLogDto.note,
       });
       await this.logModel.init();
       return createdLog.save();
@@ -70,6 +71,7 @@ export class LogService {
             timeSpentInPlainEnglish: updateLogDto.timeSpentInPlainEnglish,
             timeSpent: calculateMinutes(regexArray),
             logType: updateLogDto.logType,
+            note: updateLogDto.note,
           },
         },
         { new: true },
@@ -125,6 +127,7 @@ export class LogService {
             userId: 1,
             createdAt: 1,
             updatedAt: 1,
+            note: 1,
           },
         },
       ]);

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import * as Joi from 'joi';
 import { LOG_TIME_PATTERN } from '../../../constants/regex.constant';
 import { customTimeSpentValidator } from '../../../util/time-spent.util';
@@ -19,6 +19,10 @@ export class UpdateLogDto {
   @IsString()
   @IsNotEmpty()
   public logType: string;
+
+  @IsString()
+  @IsOptional()
+  public note?: string;
 }
 
 export const UpdateLogSchema = Joi.object().keys({
@@ -29,4 +33,5 @@ export const UpdateLogSchema = Joi.object().keys({
     .custom(customTimeSpentValidator, 'Time spent validator')
     .required(),
   logType: Joi.string().required(),
+  note: Joi.string().optional().empty(''),
 });

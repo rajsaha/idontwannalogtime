@@ -57,6 +57,7 @@
                 validation="required"
                 :validation-messages="{ required: 'Required' }"
             />
+            <FormKit type="textarea" label="Add a note?" name="note" />
             <FormKit type="submit" label="Log Work" v-if="!inModal" />
         </FormKit>
     </div>
@@ -84,6 +85,7 @@ export default {
                 workedOn: this.workLog.workedOn,
                 timeSpentInPlainEnglish: this.workLog.timeSpentInPlainEnglish,
                 logType: this.workLog.logType,
+                note: this.workLog.note,
             })
         }
     },

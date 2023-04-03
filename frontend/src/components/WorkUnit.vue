@@ -4,11 +4,21 @@
         @mouseenter="isBeingHovered = true"
         @mouseleave="isBeingHovered = false"
     >
-        <small>#{{ work.logTypeDescription }}</small>
-        <p class="max-w-max text-ellipsis font-medium">
+        <small class="font-bold text-[#665687]"
+            >#{{ work.logTypeDescription }}</small
+        >
+        <p
+            class="max-w-max text-ellipsis font-medium"
+            :class="{ 'mb-2': work.note }"
+        >
             {{ getTruncatedDescription }}
         </p>
-        <small class="mb-2">Last Updated: {{ getFormattedDate }}</small>
+        <p v-if="work.note" class="rounded-lg p-2 text-xs bg-yellow-100 mb-2">
+            {{ work.note }}
+        </p>
+        <small class="text-gray-400" :class="{ 'mb-2': isBeingHovered }"
+            >Last Updated: {{ getFormattedDate }}</small
+        >
 
         <Transition appear name="slide-fade">
             <div
@@ -150,9 +160,7 @@ export default {
             return `${this.work.timeSpentInPlainEnglish} on ${this.work.workedOn}`
         },
         getFormattedDate() {
-            return dayjs(this.work.updatedAt).utc().format(
-                "YYYY-MM-DD"
-            )
+            return dayjs(this.work.updatedAt).utc().format("YYYY-MM-DD")
         },
     },
     methods: {
@@ -213,12 +221,12 @@ export default {
     max-width: 28rem;
     border: 2px solid #eeeeee;
     border-radius: 0.5rem;
-    max-height: 85px;
+    max-height: 150px;
     transition: max-height 0.15s ease-out;
 }
 
 .work-done-item:hover {
-    max-height: 150px;
+    max-height: 800px;
     transition: max-height 0.05s cubic-bezier(1, 0.5, 0.8, 1);
     border-color: #b084cc;
 }
@@ -237,7 +245,6 @@ export default {
 
 .work-done-item small {
     display: block;
-    color: #b2b2b2;
 }
 
 .slide-fade-enter-active {
