@@ -1,5 +1,5 @@
 <template>
-    <div class="grid">
+    <div class="grid p-4">
         <h1 class="font-bold mb-4 text-[#8d8d8d]">Manage Custom Log Types</h1>
         <div class="p-4 content shadow-2xl mb-8">
             <ManageLogTypes></ManageLogTypes>

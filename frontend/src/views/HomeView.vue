@@ -25,7 +25,7 @@ export default {
             } catch (error) {
                 toaster.error(error.message)
             }
-        }
+        },
     },
     setup() {
         const store = useCounterStore()
@@ -39,7 +39,9 @@ export default {
     <main class="p-4">
         <section class="grid home-grid gap-x-6">
             <div class="md:justify-self-end"><LogCalendar /></div>
-            <div class="p-4 content shadow-2xl min-w-full">
+            <div
+                class="p-4 content shadow-2xl min-w-full sm:min-w-[450px] md:min-w-[450px]"
+            >
                 <LogTimeForm ref="logTimeForm" @logWork="logWork" />
                 <WorkDone ref="workDone" />
             </div>

@@ -4,10 +4,11 @@
             <h1
                 id="selected-or-current-date"
                 class="font-bold mb-4 text-[#B084CC]"
-                :class="{ 'text-3xl': !inModal, 'text-lg': inModal }"
+                :class="{ 'text-2xl': !inModal, 'text-lg': inModal }"
                 :key="formattedDate"
             >
-                {{ formattedDate }}
+                <font-awesome-icon icon="fa-regular fa-calendar-days" />
+                <span class="font-bold">&nbsp;&nbsp;{{ formattedDate }}</span>
             </h1>
         </Transition>
         <FormKit
@@ -66,10 +67,12 @@ import dayjs from "dayjs"
 import advancedFormat from "dayjs/plugin/advancedFormat"
 import { useCounterStore } from "@/stores/state"
 import { logTypeApi } from "@/api/log-type.api"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
 dayjs.extend(advancedFormat)
 
 export default {
+    components: { FontAwesomeIcon },
     created() {
         this.formId = this.makeId()
     },

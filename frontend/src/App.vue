@@ -9,18 +9,18 @@
                 <small style="margin-top: 4px">v0.1</small>
             </div>
             <nav
-                class="p-2 flex gap-4 bg-white rounded navigation ml-auto mr-auto self-center mb-8"
+                class="p-2 flex gap-4 bg-white rounded navigation ml-auto mr-auto self-center mb-8 min-w-fit text-xs sm:text-sm md:text-base"
                 v-if="isLoggedIn"
             >
                 <router-link
-                    class="uppercase font-bold cursor-pointer rounded px-4 py-2 hover:bg-[#331268] hover:text-[#fff]"
+                    class="uppercase font-bold cursor-pointer rounded px-4 py-2 hover:bg-[#665687] hover:text-[#fff]"
                     to="/"
                     :active-class="'active-navigation-item'"
                 >
                     Home
                 </router-link>
                 <router-link
-                    class="uppercase font-bold cursor-pointer rounded px-4 py-2 hover:bg-[#331268] hover:text-[#fff]"
+                    class="uppercase font-bold cursor-pointer rounded px-4 py-2 hover:bg-[#665687] hover:text-[#fff]"
                     to="/settings"
                     :active-class="'active-navigation-item'"
                 >
@@ -29,8 +29,19 @@
                 <ul
                     class="uppercase font-bold cursor-pointer ml-auto rounded px-4 py-2"
                     @click="logout"
+                    @mouseover="logoutHover = true"
+                    @mouseleave="logoutHover = false"
                 >
-                    Logout
+                    <div v-if="!logoutHover">
+                        <span class="font-bold">Logout&nbsp;&nbsp;</span>
+                    </div>
+                    <div class="logout-button" v-if="logoutHover">
+                        <span class="font-bold">Logout&nbsp;&nbsp;</span>
+                        <font-awesome-icon
+                            icon="fa-solid fa-arrow-right-from-bracket"
+                            shake
+                        />
+                    </div>
                 </ul>
             </nav>
             <div class="pages flex self-center justify-self-center">
@@ -63,6 +74,7 @@ export default {
     data() {
         return {
             isLoggedIn: true,
+            logoutHover: false,
         }
     },
 }
@@ -89,6 +101,10 @@ export default {
         "main"
         "footer";
     grid-template-rows: min-content min-content 1fr min-content;
+}
+
+.logout-button {
+    transition: width 0.2s ease-in-out;
 }
 
 .application-sections .app-title {
@@ -146,6 +162,8 @@ export default {
     border: 1px solid transparent;
     background-color: #b084cc;
     color: white;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
 
 .active-navigation-item:hover {

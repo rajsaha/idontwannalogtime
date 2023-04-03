@@ -10,13 +10,23 @@ import { generateClasses } from "@formkit/themes"
 import theme from "./theme"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons"
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons"
+import {
+    faCalendarDays,
+    faPenToSquare,
+    faTrashCan,
+} from "@fortawesome/free-regular-svg-icons"
+import {
+    faArrowLeft,
+    faArrowRight,
+    faArrowRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons"
 
 library.add(faPenToSquare)
 library.add(faTrashCan)
 library.add(faArrowLeft)
 library.add(faArrowRight)
+library.add(faCalendarDays)
+library.add(faArrowRightFromBracket)
 
 const pinia = createPinia()
 const app = createApp(App).use(
